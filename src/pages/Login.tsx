@@ -7,15 +7,9 @@ function Login() {
         document.title = "Inicio Sesion";
 
         const form = document.getElementById("forminiciosession");
-        const email = document.getElementById(
-            "email"
-        ) as HTMLInputElement | null;
-        const password = document.getElementById(
-            "password"
-        ) as HTMLInputElement | null;
-        const loginMessage = document.getElementById(
-            "loginMessage"
-        ) as HTMLInputElement | null;
+        const email = document.getElementById("email") as HTMLInputElement | null;
+        const password = document.getElementById("password") as HTMLInputElement | null;
+        const loginMessage = document.getElementById("loginMessage") as HTMLInputElement | null;
 
         if (!form || !loginMessage || !email || !password) return;
 
@@ -24,7 +18,7 @@ function Login() {
 
             const user = users.find(
                 (u) =>
-                    (u.email.toLowerCase() === email.value.toLowerCase() || u.name.toLowerCase() === email.value.toLowerCase()) &&
+                    u.email.toLowerCase() === email.value.toLowerCase() &&
                     u.password === password.value
             );
 
