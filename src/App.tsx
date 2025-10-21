@@ -10,6 +10,7 @@ import ProductPage from "./pages/ProductPage";
 import Layout from "./layout/Layout";
 import NotFound from "./pages/404";
 import Eventos from "./pages/Eventos";
+import AddItemsTestApi from "./pages/AddItemsTestApi";
 function App() {
     return (
         <>
@@ -25,6 +26,8 @@ function App() {
                     <Route path="/Eventos" element={<Eventos />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
+
+                    <Route path="/APItest" element={<AddItemsTestApi />} />
 
                     {/*si no encuentra la pag manda 404*/}
                     <Route path="*" element={<NotFound />} />
