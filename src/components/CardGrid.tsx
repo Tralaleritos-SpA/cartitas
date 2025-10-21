@@ -1,7 +1,11 @@
 import Card from "./Card";
-import type { Product } from "../types/Product";
+import type { Product } from "../types/productTypes";
 
-function CardGrid({ products }: { products: Product[] }) {
+function CardGrid({ products }: { products: Product[] | null }) {
+    if (!products) {
+        return <p>No products to display.</p>;
+    }
+
     return (
         <div className="card-grid col-sm-12 col-md-8">
             {products.map((product, index) => (
@@ -11,8 +15,8 @@ function CardGrid({ products }: { products: Product[] }) {
                     name={product.name}
                     brand={product.brand}
                     price={product.price}
-                    image={product.image}
-                    desc={product.desc}
+                    img_url={product.img_url}
+                    description={product.description}
                     key={index}
                 />
             ))}

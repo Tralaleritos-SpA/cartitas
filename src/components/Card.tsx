@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import type { Product } from "../types/Product";
+import type { Product } from "../types/productTypes";
 
 function Card(product: Product) {
     return (
@@ -11,7 +11,7 @@ function Card(product: Product) {
                 <div className="box box-product">
                     <img
                         className="box-product-img"
-                        src={product.image}
+                        src={product.img_url}
                         alt={product.name + "image"}
                     ></img>
                     <div className="box-product-body">
@@ -19,7 +19,7 @@ function Card(product: Product) {
                             {product.name}
                         </label>
                         <label className="box-product-brand">
-                            {product.brand}
+                            {product.brand.name}
                         </label>
                         <label className="box-product-price">
                             ${product.price}
