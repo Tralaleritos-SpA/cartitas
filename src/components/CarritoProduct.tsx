@@ -11,9 +11,9 @@ function CarritoProduct(product: Product) {
             <p>{product.name}</p>
             <p>${product.price}</p>
             <span className="d-inline-flex">
-                <button className="button">-</button>
+                <button className="button">&minus;</button>
                 <p>0</p>
-                <button className="button">+</button>
+                <button className="button">&#x2B;</button>
             </span>
         </div>
     );

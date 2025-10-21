@@ -9,8 +9,7 @@ function Carrito() {
             <Link to="/" className="link">
                 &#8617; Regresar a la tienda
             </Link>
-            <h1 className="text-center">Carrito</h1>
-            <div className="row">
+            <div className="row pt-3">
                 <div className="col-sm-12 col-md-6 col-lg-6">
                     <CarritoProductList />
                 </div>
