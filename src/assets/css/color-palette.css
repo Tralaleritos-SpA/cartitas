@@ -289,7 +289,14 @@ body {
 .card-grid {
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 250px));
+    grid-template-columns: 1fr;
+}
+
+/*grid responsivo :vv*/
+@media (min-width: 768px) {
+    .card-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
 }
 
 .boxes {
@@ -397,43 +404,22 @@ body {
         transform: translateX(-100%);
     }
 }
-/*weaas mias no toques marica*/
-.mi-cont {
-    margin-top: 150px;
-}
 
-.product-carta {
-    background-color: #e6e6e6;
-    border: 1px solid #ddd;
+/*weaas mias no toques marica*/
+.producto-destacado {
+    background: var(--bg);
     padding: 1rem;
     border-radius: 20px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease;
     flex-shrink: 0;
     width: 230px;
+    transform: scale(0.97);
 }
 
-.product-carta:hover {
-    transform: scale(1.02);
+.producto-destacado:hover {
+    transform: scale(1);
 }
-
-.product-carta h3 {
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
-}
-
-.product-carta p {
-    margin: 0.3rem 0;
-}
-
-.product-himage {
-    width: 100%;
-    height: 200px;
-    border-radius: 6px;
-    margin-bottom: 0.5rem;
-    object-fit: cover;
-}
-
 
 .scroll-container {
     display: flex;
@@ -443,12 +429,10 @@ body {
     scroll-behavior: smooth;
     scrollbar-width: none;
     -ms-overflow-style: none;
-
 }
 
 .scroll-container::-webkit-scrollbar {
     display: none;
-
 }
 
 .scroll-button {
@@ -459,9 +443,9 @@ body {
 }
 
 .scroll-button.start {
-  left: -50px; 
+    left: -3rem;
 }
 
 .scroll-button.end {
-  right: -50px;
+    right: -3rem;
 }

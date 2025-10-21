@@ -4,11 +4,11 @@ import type { Product } from "../types/productTypes";
 function Card(product: Product) {
     return (
         <>
-            <Link
-                className="box-product-link"
-                to={"/Productos/" + product.category + "/" + product.id}
-            >
-                <div className="box box-product">
+            <div className="box box-product">
+                <Link
+                    className="box-product-link"
+                    to={"/Productos/" + product.category + "/" + product.id}
+                >
                     <img
                         className="box-product-img"
                         src={product.img_url}
@@ -25,8 +25,8 @@ function Card(product: Product) {
                             ${product.price}
                         </label>
                     </div>
-                </div>
-            </Link>
+                </Link>
+            </div>
         </>
     );
 }

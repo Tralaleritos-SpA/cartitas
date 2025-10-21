@@ -5,7 +5,7 @@
         "brand": "Magic: The Gathering",
         "stock": 67,
         "price": "185.000",
-        "image": "src/assets/images/drako3.png",
+        "image": "https://www.magicsur.cl/22550-thickbox_default/mtg-caja-de-collector-booster-commander-legends-battle-for-baldurs-gate.jpg",
         "desc": "Embárcate en una aventura de Dungeons & Dragons con esta caja de booster coleccionista. Contiene cartas con tratamiento especial, foils espectaculares y criaturas legendarias únicas del universo de Faerûn.",
         "category": "TCG"
     },
