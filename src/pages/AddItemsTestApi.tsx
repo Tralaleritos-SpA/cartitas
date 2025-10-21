@@ -19,7 +19,10 @@ function AddItemsTestApi() {
         <div className="container">
             <h1>brands active</h1>
             {brands?.map((brand, index) => (
-                <p key={index}>{brand.name}</p>
+                <div key={index}>
+                    <p>id: {brand.id}</p>
+                    <p>{brand.name}</p>
+                </div>
             ))}
         </div>
     );
