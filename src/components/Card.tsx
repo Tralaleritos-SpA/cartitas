@@ -7,7 +7,7 @@ function Card(product: Product) {
             <div className="box box-product">
                 <Link
                     className="box-product-link"
-                    to={"/Productos/" + product.id}
+                    to={"/Producto/" + product.id}
                 >
                     <img
                         className="box-product-img"
