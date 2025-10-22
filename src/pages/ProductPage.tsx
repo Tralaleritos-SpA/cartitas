@@ -1,8 +1,20 @@
 import { useParams } from "react-router-dom";
 import { useFetch } from "../hooks/useFetch";
+import { fetchProductById } from "../services/productService";
+import { useCallback } from "react";
+import { clpFormatter } from "../hooks/currencyFormat";
 
 function ProductPage() {
     const { id } = useParams();
+
+    // makes it so it only reloads when the id changes
+    const stableFetcher = useCallback(() => fetchProductById(id!), [id]);
+
+    const {
+        data: dataProduct,
+        loading: loadingProduct,
+        error: errorProduct,
+    } = useFetch(stableFetcher);
 
     if (loadingProduct) {
         return (
@@ -12,22 +24,15 @@ function ProductPage() {
         );
     }
 
-    if (errorProduct) {
-        return (
-            <div className="container my-5">
-                <div className="alert alert-danger">
-                    Error: {errorProduct.message}
-                </div>
-            </div>
-        );
-    }
+    if (errorProduct || !dataProduct) {
+        console.error(errorProduct);
 
-    if (!product)
         return (
             <div className="container text-center my-5">
                 <h1>El producto no se ha encontrado :C</h1>
             </div>
         );
+    }
 
     return (
         <div className="container">
@@ -35,21 +40,23 @@ function ProductPage() {
                 <div className="product-img">
                     <img
                         className="product-img"
-                        src={product.img_url}
-                        alt={product.name + "image"}
+                        src={dataProduct.img_url}
+                        alt={dataProduct.name + "image"}
                     ></img>
                 </div>
 
                 <div className="product-body">
-                    <label className="product-title">{product.name}</label>
+                    <label className="product-title">{dataProduct.name}</label>
                     <label className="product-brand">
-                        {product.brand.name}
+                        {dataProduct.brand.name}
                     </label>
                     <label className="product-stock">
-                        Stock: {product.stock}
+                        Stock: {dataProduct.stock}
                     </label>
-                    <label className="product-price">${product.price}</label>
-                    {product.stock ? (
+                    <label className="product-price">
+                        {clpFormatter.format(dataProduct.price)}
+                    </label>
+                    {dataProduct.stock ? (
                         <button className="button">Agregar al carrito</button>
                     ) : (
                         <p className="box">ta agotao</p>
@@ -59,7 +66,7 @@ function ProductPage() {
 
             <div className="product-desc">
                 <p>Descripcion producto:</p>
-                <p>{product.description}</p>
+                <p>{dataProduct.description}</p>
             </div>
         </div>
     );

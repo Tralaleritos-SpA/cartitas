@@ -38,6 +38,24 @@ export async function fetchActiveProducts(): Promise<Product[]> {
     }
 }
 
+export async function fetchProductById(id: string): Promise<Product> {
+    try {
+        const response = await fetch(apiURL + "/" + id);
+
+        if (!response.ok) {
+            throw `Failed to fetch product. Status ${response.status}`;
+        }
+
+        const foundProduct: Product = await response.json();
+
+        return foundProduct;
+    } catch (error) {
+        const errorMessage =
+            error instanceof Error ? error.message : String(error);
+        throw new Error("API Error in productFetchById:" + errorMessage);
+    }
+}
+
 export async function createProduct(productBody: {
     name: string;
     brand: Brand;

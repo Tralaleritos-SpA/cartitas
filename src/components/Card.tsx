@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import type { Product } from "../types/productTypes";
+import { clpFormatter } from "../hooks/currencyFormat";
 
 function Card(product: Product) {
     return (
@@ -22,7 +23,7 @@ function Card(product: Product) {
                             {product.brand.name}
                         </label>
                         <label className="box-product-price">
-                            ${product.price}
+                            {clpFormatter.format(product.price)}
                         </label>
                     </div>
                 </Link>
