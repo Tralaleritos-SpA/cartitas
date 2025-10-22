@@ -1,10 +1,17 @@
 import Carousel from "../components/Carousel";
 import TextMove from "../components/Textmove";
-import JsonProducts from "../hooks/JsonProduct";
 import DestacadoSection from "../components/DestacadoSection";
+import { useFetch } from "../hooks/useFetch";
+import { fetchActiveProducts } from "../services/productService";
 
 function Home() {
     document.title = "Home";
+
+    const {
+        data: productList,
+        loading: productLoading,
+        error: productError,
+    } = useFetch(fetchActiveProducts);
 
     return (
         <div className="container">
@@ -17,7 +24,13 @@ function Home() {
                 </a>
             </div>
 
-            <DestacadoSection products={JsonProducts} />
+            {productLoading && <div>Cargando productos destacados...</div>}
+            {productError && (
+                <div className="alert alert-danger">
+                    Error: {productError.message}
+                </div>
+            )}
+            {productList && <DestacadoSection products={productList} />}
         </div>
     );
 }
