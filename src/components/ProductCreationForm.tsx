@@ -255,7 +255,9 @@ function ProductCreationForm() {
                                 type="number"
                                 placeholder="Para accesorios"
                                 value={productQuantity}
-                                onChange={(e) => e.target.valueAsNumber}
+                                onChange={(e) =>
+                                    setProductQuantity(e.target.valueAsNumber)
+                                }
                                 disabled={
                                     loadingBrand ||
                                     loadingCategory ||
@@ -268,7 +270,9 @@ function ProductCreationForm() {
                                 type="number"
                                 placeholder="Para juegos de mesa"
                                 value={productMinPlayers}
-                                onChange={(e) => e.target.valueAsNumber}
+                                onChange={(e) =>
+                                    setProductMinPlayers(e.target.valueAsNumber)
+                                }
                                 disabled={
                                     loadingBrand ||
                                     loadingCategory ||
@@ -281,7 +285,9 @@ function ProductCreationForm() {
                                 type="number"
                                 placeholder="Para juegos de mesa"
                                 value={productMaxPlayers}
-                                onChange={(e) => e.target.valueAsNumber}
+                                onChange={(e) =>
+                                    setProductMaxPlayers(e.target.valueAsNumber)
+                                }
                                 disabled={
                                     loadingBrand ||
                                     loadingCategory ||
