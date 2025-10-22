@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
-type FetchFunction<T> = () => Promise<T[]>;
+type FetchFunction<T> = () => Promise<T>;
 
 export const useFetch = <T>(fetcher: FetchFunction<T>) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
-    const [data, setData] = useState<T[] | null>(null);
+    const [data, setData] = useState<T | null>(null);
 
     useEffect(() => {
         // default state
