@@ -1,8 +1,8 @@
-import type { Brand } from "../types/productTypes";
+import type { Category } from "../types/productTypes";
 
-const apiURL = "http://localhost:6969/api/v1/brands";
+const apiURL = "http://localhost:6969/api/v1/categories";
 
-export async function fetchBrands(): Promise<Brand[]> {
+export async function fetchCategories(): Promise<Category[]> {
     try {
         const response = await fetch(apiURL);
 
@@ -10,17 +10,17 @@ export async function fetchBrands(): Promise<Brand[]> {
             throw `Failed to fetch brands. Status: ${response.status}`;
         }
 
-        const brands: Brand[] = await response.json();
+        const categories: Category[] = await response.json();
 
-        return brands;
+        return categories;
     } catch (error) {
         const errorMessage =
             error instanceof Error ? error.message : String(error);
-        throw new Error("API Error in productService:" + errorMessage);
+        throw new Error("API Error in categoryService:" + errorMessage);
     }
 }
 
-export async function fetchActiveBrands(): Promise<Brand[]> {
+export async function fetchActiveCategories(): Promise<Category[]> {
     try {
         const response = await fetch(apiURL + "/active");
 
@@ -28,24 +28,26 @@ export async function fetchActiveBrands(): Promise<Brand[]> {
             throw `Failed to fetch active brands. Status: ${response.status}`;
         }
 
-        const brands: Brand[] = await response.json();
+        const categories: Category[] = await response.json();
 
-        return brands;
+        return categories;
     } catch (error) {
         const errorMessage =
             error instanceof Error ? error.message : String(error);
-        throw new Error("API Error in productService:" + errorMessage);
+        throw new Error("API Error in categoryService:" + errorMessage);
     }
 }
 
-export async function createBrand(brandName: { name: string }): Promise<Brand> {
+export async function createCategory(categoryName: {
+    name: string;
+}): Promise<Category> {
     try {
         const response = await fetch(apiURL, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(brandName),
+            body: JSON.stringify(categoryName),
         });
 
         if (!response.ok) {
@@ -54,11 +56,11 @@ export async function createBrand(brandName: { name: string }): Promise<Brand> {
             );
         }
 
-        const newBrand: Brand = await response.json();
-        return newBrand;
+        const newCategory: Category = await response.json();
+        return newCategory;
     } catch (error) {
         const errorMessage =
             error instanceof Error ? error.message : String(error);
-        throw new Error("API Error in createBrand:" + errorMessage);
+        throw new Error("API Error in createCategory:" + errorMessage);
     }
 }
