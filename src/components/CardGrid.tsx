@@ -1,11 +1,25 @@
 import Card from "./Card";
 import type { Product } from "../types/productTypes";
 
-function CardGrid({ products }: { products: Product[] | null }) {
+interface CardGridProps {
+    products: Product[] | null;
+    loading: boolean;
+    error: Error | null;
+}
+function CardGrid({ products, loading, error }: CardGridProps) {
+    if (loading) {
+        return <div>Loading products...</div>;
+    }
+
+    if (error) {
+        return (
+            <div className="alert alert-danger">Error: {error.toString()}</div>
+        );
+    }
+
     if (!products) {
         return <p>No products to display.</p>;
     }
-
     return (
         <div className="card-grid col-sm-12 col-md-8">
             {products.map((product, index) => (
