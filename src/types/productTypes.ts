@@ -1,6 +1,6 @@
 export interface Brand {
     id: string;
-    isActive: boolean;
+    active: boolean;
     name: string;
 }
 

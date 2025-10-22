@@ -1,4 +1,4 @@
-import type { Product } from "../types/productTypes";
+import type { Brand, Category, Product } from "../types/productTypes";
 
 const apiURL = "http://localhost:6969/api/v1/products";
 
@@ -35,5 +35,43 @@ export async function fetchActiveProducts(): Promise<Product[]> {
         const errorMessage =
             error instanceof Error ? error.message : String(error);
         throw new Error("API Error in productService:" + errorMessage);
+    }
+}
+
+export async function createProduct(productBody: {
+    name: string;
+    brand: Brand;
+    category: Category;
+    stock: number;
+    price: number;
+
+    // Optional fields
+    img_url: string | "";
+    description: string | null;
+    quantity?: number;
+    min_player_number?: number;
+    max_player_number?: number;
+}): Promise<Product> {
+    try {
+        const response = await fetch(apiURL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(productBody),
+        });
+
+        if (!response.ok) {
+            throw new Error(
+                `Failed to create brand. Status: ${response.status}`
+            );
+        }
+
+        const newProduct: Product = await response.json();
+        return newProduct;
+    } catch (error) {
+        const errorMessage =
+            error instanceof Error ? error.message : String(error);
+        throw new Error("API Error in createCategory:" + errorMessage);
     }
 }
