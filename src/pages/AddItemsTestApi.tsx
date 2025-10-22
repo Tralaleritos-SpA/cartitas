@@ -1,10 +1,15 @@
-import { useFetchActiveBrands } from "../hooks/useFetchBrands";
+import { useFetch } from "../hooks/useFetch";
+import { fetchActiveBrands } from "../services/brandService";
 
 function AddItemsTestApi() {
-    const { brands, loading, error } = useFetchActiveBrands();
+    const { data, loading, error } = useFetch(fetchActiveBrands);
 
     if (loading) {
-        return <p>Loading products...</p>;
+        return (
+            <div className="container">
+                <p>Loading products...</p>
+            </div>
+        );
     }
 
     if (error) {
@@ -18,7 +23,7 @@ function AddItemsTestApi() {
     return (
         <div className="container">
             <h1>brands active</h1>
-            {brands?.map((brand, index) => (
+            {data?.map((brand, index) => (
                 <div key={index}>
                     <p>id: {brand.id}</p>
                     <p>{brand.name}</p>
