@@ -3,7 +3,7 @@ import { Link, Outlet } from "react-router-dom";
 function AdminLayout() {
   return (
     <div className="admin-layout">
-      {/* Sidebar */}
+
       <aside className="sidebar">
         <h3 className="sidebar-title">Panel Admin</h3>
         <ul className="nav-items" style={{ flexDirection: "column" }}>
@@ -16,8 +16,6 @@ function AdminLayout() {
           </li>
         </ul>
       </aside>
-
-
       <div className="admin-content">
 
         <Outlet />
