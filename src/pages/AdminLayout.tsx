@@ -17,7 +17,6 @@ function AdminLayout() {
         </ul>
       </aside>
       <div className="admin-content">
-
         <Outlet />
       </div>
     </div>

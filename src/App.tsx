@@ -30,9 +30,9 @@ function App() {
 
                     {/*si no encuentra la pag manda 404*/}
                     <Route path="*" element={<NotFound />} />
-                    {/* Panel de administrador */}
+                    {/* panel de administrador */}
                     <Route path="/admin" element={<AdminLayout />}>
-                    <Route index element={<Dashboard />} />
+                        <Route index element={<Dashboard />} />
                         <Route path="dashboard" element={<Dashboard />} />
                     </Route>
 

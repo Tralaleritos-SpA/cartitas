@@ -1,4 +1,4 @@
-import {
+import {/* importacion para el grafico */
   BarChart,
   Bar,
   XAxis,
@@ -20,15 +20,13 @@ function Dashboard() {
     <div className="dashboard-container  ">
       <h2>Dashboard</h2>
 
-      
-      <div className="boxes">
+        <div className="boxes">
         <div className="box">Usuarios activos: <strong>128</strong></div>
         <div className="box">Ventas del mes: <strong>457</strong></div>
         <div className="box">Productos en stock: <strong>86</strong></div>
         <div className="box">Pedidos pendientes: <strong>12</strong></div>
       </div>
 
-  
       <div className="box chart-box">
         <h5 className="chart-title">Comparación General</h5>
         <ResponsiveContainer width="100%" height={300}>
