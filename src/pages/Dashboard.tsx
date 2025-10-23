@@ -11,7 +11,6 @@ import {/* importacion para el grafico */
 const data = [
   { name: "Ventas", value: 400 },
   { name: "Usuarios", value: 300 },
-  { name: "Productos", value: 200 },
   { name: "Pedidos", value: 100 },
 ];
 
@@ -23,7 +22,6 @@ function Dashboard() {
         <div className="boxes">
         <div className="box">Usuarios activos: <strong>128</strong></div>
         <div className="box">Ventas del mes: <strong>457</strong></div>
-        <div className="box">Productos en stock: <strong>86</strong></div>
         <div className="box">Pedidos pendientes: <strong>12</strong></div>
       </div>
 

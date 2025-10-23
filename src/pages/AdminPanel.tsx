@@ -17,7 +17,7 @@ function AdminLayout() {
         </ul>
       </aside>
       <div className="admin-content">
-        <Outlet />
+        <Outlet />/* aqui se renderizan las páginas hijas */
       </div>
     </div>
   );

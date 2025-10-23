@@ -10,7 +10,7 @@ import ProductPage from "./pages/ProductPage";
 import Layout from "./layout/Layout";
 import NotFound from "./pages/404";
 import Eventos from "./pages/Eventos";
-import AdminLayout from "./pages/AdminLayout";
+import AdminPanel from "./pages/AdminPanel";
 import Dashboard from "./pages/Dashboard";
 function App() {
     return (
@@ -31,7 +31,7 @@ function App() {
                     {/*si no encuentra la pag manda 404*/}
                     <Route path="*" element={<NotFound />} />
                     {/* panel de administrador */}
-                    <Route path="/admin" element={<AdminLayout />}>
+                    <Route path="/admin" element={<AdminPanel />}>
                         <Route index element={<Dashboard />} />
                         <Route path="dashboard" element={<Dashboard />} />
                     </Route>
