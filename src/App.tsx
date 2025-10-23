@@ -10,6 +10,8 @@ import ProductPage from "./pages/ProductPage";
 import Layout from "./layout/Layout";
 import NotFound from "./pages/404";
 import Eventos from "./pages/Eventos";
+import AdminLayout from "./pages/AdminLayout";
+import Dashboard from "./pages/Dashboard";
 function App() {
     return (
         <>
@@ -28,6 +30,13 @@ function App() {
 
                     {/*si no encuentra la pag manda 404*/}
                     <Route path="*" element={<NotFound />} />
+                    {/* Panel de administrador */}
+                    <Route path="/admin" element={<AdminLayout />}>
+                    <Route index element={<Dashboard />} />
+                        <Route path="dashboard" element={<Dashboard />} />
+                    </Route>
+
+
                 </Routes>
             </Layout>
         </>
