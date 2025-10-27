@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function Footer() {
     return (
         <>
@@ -19,6 +21,9 @@ function Footer() {
                             Support
                         </a>
                     </li>
+                    <Link to="ApiTest" className="footer-link">
+                        API
+                    </Link>
                 </ul>
             </div>
         </>

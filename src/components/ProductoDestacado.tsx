@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import type { Product } from "../types/Product";
+import type { Product } from "../types/productTypes";
+import { clpFormatter } from "../hooks/currencyFormat";
 
 function ProductoDestacado(product: Product) {
     return (
@@ -7,18 +8,17 @@ function ProductoDestacado(product: Product) {
             <div className="box producto-destacado" key={product.id}>
                 <Link
                     className="box-product-link"
-                    to={"/Productos/" + product.category + "/" + product.id}
+                    to={"/Producto/" + product.id}
                 >
-                    {" "}
                     <img
-                        src={product.image}
+                        src={product.img_url}
                         alt={product.name}
                         className="box-product-img"
                     />
                     <label className="box-product-title">{product.name}</label>
                     <p>
                         <label className="box-product-price">
-                            ${product.price}
+                            {clpFormatter.format(product.price)}
                         </label>
                     </p>
                 </Link>{" "}

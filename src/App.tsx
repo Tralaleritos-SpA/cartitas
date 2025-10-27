@@ -12,6 +12,7 @@ import NotFound from "./pages/404";
 import Eventos from "./pages/Eventos";
 import AdminPanel from "./pages/AdminPanel";
 import Dashboard from "./pages/Dashboard";
+import AddItemsTestApi from "./pages/AddItemsTestApi";
 function App() {
     return (
         <>
@@ -20,13 +21,12 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/Productos" element={<Products />} />
                     <Route path="/Productos/:category" element={<Products />} />
-                    <Route
-                        path="/Productos/:category/:id"
-                        element={<ProductPage />}
-                    />
+                    <Route path="/Producto/:id" element={<ProductPage />} />
                     <Route path="/Eventos" element={<Eventos />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
+
+                    <Route path="/APItest" element={<AddItemsTestApi />} />
 
                     {/*si no encuentra la pag manda 404*/}
                     <Route path="*" element={<NotFound />} />
