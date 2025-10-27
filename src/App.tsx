@@ -13,6 +13,8 @@ import Eventos from "./pages/Eventos";
 import AdminPanel from "./layout/AdminLayout";
 import AdminDashboard from "./pages/AdminDashboard";
 import AddItemsTestApi from "./pages/AddItemsTestApi";
+import AdminProductos from "./pages/AdminProductos";
+import AdminMarcas from "./pages/AdminMarcas";
 function App() {
     return (
         <>
@@ -30,7 +32,12 @@ function App() {
 
                     {/* panel de administrador */}
                     <Route path="/admin" element={<AdminPanel />}>
-                        <Route index element={<Dashboard />} />
+                        <Route index element={<AdminDashboard />} />
+                        <Route
+                            path="/admin/productos"
+                            element={<AdminProductos />}
+                        />
+                        <Route path="/admin/marcas" element={<AdminMarcas />} />
                     </Route>
 
                     {/*si no encuentra la pag manda 404*/}
