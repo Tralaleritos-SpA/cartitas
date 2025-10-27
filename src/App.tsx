@@ -10,7 +10,7 @@ import ProductPage from "./pages/ProductPage";
 import Layout from "./layout/Layout";
 import NotFound from "./pages/404";
 import Eventos from "./pages/Eventos";
-import AdminPanel from "./pages/AdminPanel";
+import AdminPanel from "./pages/AdminLayout";
 import Dashboard from "./pages/Dashboard";
 import AddItemsTestApi from "./pages/AddItemsTestApi";
 function App() {
