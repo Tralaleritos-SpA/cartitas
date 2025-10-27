@@ -10,7 +10,7 @@ import ProductPage from "./pages/ProductPage";
 import Layout from "./layout/Layout";
 import NotFound from "./pages/404";
 import Eventos from "./pages/Eventos";
-import AdminPanel from "./pages/AdminLayout";
+import AdminPanel from "./layout/AdminLayout";
 import Dashboard from "./pages/Dashboard";
 import AddItemsTestApi from "./pages/AddItemsTestApi";
 function App() {
@@ -28,15 +28,13 @@ function App() {
 
                     <Route path="/APItest" element={<AddItemsTestApi />} />
 
-                    {/*si no encuentra la pag manda 404*/}
-                    <Route path="*" element={<NotFound />} />
                     {/* panel de administrador */}
                     <Route path="/admin" element={<AdminPanel />}>
                         <Route index element={<Dashboard />} />
-                        <Route path="dashboard" element={<Dashboard />} />
                     </Route>
 
-
+                    {/*si no encuentra la pag manda 404*/}
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
             </Layout>
         </>
