@@ -1,4 +1,5 @@
 import Button from "../components/Button";
+import image from "/src/assets/images/monopensando.webp"
 
 function NotFound() {
     document.title = "404";
@@ -8,7 +9,7 @@ function NotFound() {
                 <h1>404</h1>
                 <div>
                     <img
-                        src="src/assets/images/monopensando.webp"
+                        src={image}
                         className="box monkey-box"
                         height="450px"
                     ></img>
