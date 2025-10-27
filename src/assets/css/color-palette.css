@@ -337,6 +337,18 @@ select:invalid {
     box-shadow: var(--shadow-l);
 }
 
+.button-primary {
+    color: #fff;
+    background: var(--primary);
+    transition: background-color 0.15s ease-in-out;
+}
+
+.button-primary:hover {
+    color: #fff;
+    background: var(--border);
+}
+
+
 /* override de estilos dropdown*/
 .custom-dropdown-toggle[aria-expanded="true"],
 .custom-dropdown-toggle[aria-expanded="true"]:hover,

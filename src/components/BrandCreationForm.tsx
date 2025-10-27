@@ -26,7 +26,7 @@ function BrandCreationForm() {
 
     return (
         <>
-            <h1>Crear Marca</h1>
+            <h3>Crear Marca</h3>
             <Form onSubmit={handleSubmit}>
                 <input
                     type="text"
@@ -38,7 +38,11 @@ function BrandCreationForm() {
                     className="form-control"
                 />
 
-                <button type="submit" disabled={loading} className="button">
+                <button
+                    type="submit"
+                    disabled={loading}
+                    className="button button-primary"
+                >
                     {loading ? "Creando marca..." : "Crear Marca"}
                 </button>
 
