@@ -57,6 +57,18 @@ body {
     font-family: var(--font);
 }
 
+select:invalid {
+    color: var(--text-muted);
+}
+
+.no-resize {
+    resize: none;
+}
+
+.text-red {
+    color: var(--danger);
+}
+
 .link {
     color: var(--primary);
     text-decoration: none;
