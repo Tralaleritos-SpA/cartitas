@@ -11,7 +11,7 @@ import Layout from "./layout/Layout";
 import NotFound from "./pages/404";
 import Eventos from "./pages/Eventos";
 import AdminPanel from "./layout/AdminLayout";
-import Dashboard from "./pages/Dashboard";
+import AdminDashboard from "./pages/AdminDashboard";
 import AddItemsTestApi from "./pages/AddItemsTestApi";
 function App() {
     return (
