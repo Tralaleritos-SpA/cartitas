@@ -10,6 +10,8 @@ function AdminLayout() {
           <li><Link className="sidebar-link" to="/admin/dashboard">Dashboard</Link></li>
           <li><Link className="sidebar-link" to="/admin/usuarios">Usuarios</Link></li>
           <li><Link className="sidebar-link" to="/admin/productos">Productos</Link></li>
+          <li><Link className="sidebar-link" to="/admin/productos">Marcas</Link></li>
+          <li><Link className="sidebar-link" to="/admin/productos">Categorías</Link></li>
           <li><Link to="/" className="sidebar-link">
             Cerrar sesión
             </Link>
@@ -17,7 +19,7 @@ function AdminLayout() {
         </ul>
       </aside>
       <div className="admin-content">
-        <Outlet />/* aqui se renderizan las páginas hijas */
+        <Outlet />{/* aqui se renderizan las páginas hijas */}
       </div>
     </div>
   );
