@@ -519,7 +519,7 @@ select:invalid {
 
 }
 
-.sidebar-link {
+.sidebar a {
   display: block;
   width: 100%;
   color: var(--text);
@@ -530,8 +530,8 @@ select:invalid {
   font-weight: 500;
 }
 
-.sidebar-link:hover,
-.sidebar-link.active{
+.sidebar a:hover,
+.sidebar a.active{
   background: var(--primary);
   color: #fff;
   transform: translateX(4px);

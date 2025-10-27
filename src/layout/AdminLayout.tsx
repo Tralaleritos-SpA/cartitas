@@ -1,4 +1,4 @@
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 
 function AdminLayout() {
   return (
@@ -7,14 +7,14 @@ function AdminLayout() {
       <aside className="sidebar">
         <h3 className="sidebar-title">Panel Admin</h3>
         <ul className="nav-items" style={{ flexDirection: "column" }}>
-          <li><NavLink className="sidebar-link" to="/admin">Dashboard</NavLink></li>
-          <li><Link className="sidebar-link" to="/admin/usuarios">Usuarios</Link></li>
-          <li><Link className="sidebar-link" to="/admin/productos">Productos</Link></li>
-          <li><Link className="sidebar-link" to="/admin/productos">Marcas</Link></li>
-          <li><Link className="sidebar-link" to="/admin/productos">Categorías</Link></li>
-          <li><Link to="/" className="sidebar-link">
+          <li><NavLink to="/admin" end>Dashboard</NavLink></li>
+          <li><NavLink  to="/admin/usuarios">Usuarios</NavLink></li>
+          <li><NavLink className="sidebar-link" to="/admin/productos">Productos</NavLink></li>
+          <li><NavLink className="sidebar-link" to="/admin/marcas">Marcas</NavLink></li>
+          <li><NavLink className="sidebar-link" to="/admin/categorias">Categorías</NavLink></li>
+          <li><NavLink to="/" className="sidebar-link">
             Cerrar sesión
-            </Link>
+            </NavLink>
           </li>
         </ul>
       </aside>
