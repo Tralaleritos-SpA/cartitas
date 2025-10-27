@@ -8,7 +8,7 @@ function DestacadoSection({ products }: { products: Product[] }) {
     const scroll = (direction: "left" | "right") => {
         const container = scrollRef.current;
         if (container) {
-            const scrollAmount = 400;
+            const scrollAmount = 600;
             container.scrollBy({
                 left: direction === "left" ? -scrollAmount : scrollAmount,
                 behavior: "smooth",
