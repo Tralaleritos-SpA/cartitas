@@ -16,7 +16,7 @@ export async function fetchBrands(): Promise<Brand[]> {
     } catch (error) {
         const errorMessage =
             error instanceof Error ? error.message : String(error);
-        throw new Error("API Error in productService:" + errorMessage);
+        throw new Error("API Error in brandService:" + errorMessage);
     }
 }
 
@@ -34,7 +34,7 @@ export async function fetchActiveBrands(): Promise<Brand[]> {
     } catch (error) {
         const errorMessage =
             error instanceof Error ? error.message : String(error);
-        throw new Error("API Error in productService:" + errorMessage);
+        throw new Error("API Error in brandService:" + errorMessage);
     }
 }
 
