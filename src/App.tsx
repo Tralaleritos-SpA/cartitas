@@ -15,6 +15,8 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AddItemsTestApi from "./pages/AddItemsTestApi";
 import AdminProductos from "./pages/AdminProductos";
 import AdminMarcas from "./pages/AdminMarcas";
+import AdminCategorias from "./pages/AdminCategorias";
+
 function App() {
     return (
         <>
@@ -38,6 +40,7 @@ function App() {
                             element={<AdminProductos />}
                         />
                         <Route path="/admin/marcas" element={<AdminMarcas />} />
+                        <Route path="/admin/categorias" element={<AdminCategorias />} />
                     </Route>
 
                     {/*si no encuentra la pag manda 404*/}
