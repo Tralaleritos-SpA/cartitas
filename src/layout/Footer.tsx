@@ -21,9 +21,16 @@ function Footer() {
                             Support
                         </a>
                     </li>
-                    <Link to="ApiTest" className="footer-link">
-                        API
-                    </Link>
+                    <li className="list-inline-item">
+                        <Link to="ApiTest" className="footer-link">
+                            API
+                        </Link>
+                    </li>
+                    <li className="list-inline-item">
+                        <Link to="admin" className="footer-link">
+                            Admin
+                        </Link>
+                    </li>
                 </ul>
             </div>
         </>
