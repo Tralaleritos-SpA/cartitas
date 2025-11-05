@@ -14,9 +14,9 @@ const data = [
   { name: "Pedidos", value: 100 },
 ];
 
-function Dashboard() {
+function AdminDashboard() {
   return (
-    <div className="dashboard-container  ">
+    <div className="dashboard-container">
       <h2>Dashboard</h2>
 
         <div className="boxes">
@@ -44,4 +44,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default AdminDashboard;

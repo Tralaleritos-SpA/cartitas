@@ -100,233 +100,216 @@ function ProductCreationForm() {
     };
     return (
         <>
-            <div className="box">
-                <h4>Crear Producto</h4>
-                <p>
-                    Los campos marcados con{" "}
-                    <label className="text-red"> * </label> son obligatorios.
-                </p>
+            <h3>Crear Producto</h3>
+            <p>
+                Los campos marcados con <label className="text-red"> * </label>{" "}
+                son obligatorios.
+            </p>
 
-                <Form onSubmit={handleSubmit}>
-                    <div className="row">
-                        <div className="col">
-                            <label className="text-red">*</label>
-                            <label>Nombre:</label>
-                            <input
-                                type="text"
-                                required
-                                value={productName}
-                                disabled={
-                                    loadingBrand ||
-                                    loadingCategory ||
-                                    loadingSubmit
-                                }
-                                className="form-control my-1"
-                                onChange={(e) => setProductName(e.target.value)}
-                            />
-                            <label className="text-red">*</label>
-                            <label>Stock:</label>
-                            <input
-                                type="number"
-                                required
-                                value={productStock}
-                                disabled={
-                                    loadingBrand ||
-                                    loadingCategory ||
-                                    loadingSubmit
-                                }
-                                className="form-control my-1"
-                                onChange={(e) =>
-                                    setProductStock(e.target.valueAsNumber)
-                                }
-                            />
+            <Form onSubmit={handleSubmit}>
+                <div className="row">
+                    <div className="col">
+                        <label className="text-red">*</label>
+                        <label>Nombre:</label>
+                        <input
+                            type="text"
+                            required
+                            value={productName}
+                            disabled={
+                                loadingBrand || loadingCategory || loadingSubmit
+                            }
+                            className="form-control my-1"
+                            onChange={(e) => setProductName(e.target.value)}
+                        />
+                        <label className="text-red">*</label>
+                        <label>Stock:</label>
+                        <input
+                            type="number"
+                            required
+                            value={productStock}
+                            disabled={
+                                loadingBrand || loadingCategory || loadingSubmit
+                            }
+                            className="form-control my-1"
+                            onChange={(e) =>
+                                setProductStock(e.target.valueAsNumber)
+                            }
+                        />
 
-                            <label className="text-red">*</label>
-                            <label>Precio:</label>
-                            <input
-                                type="number"
-                                required
-                                value={productPrice}
-                                placeholder="$"
-                                disabled={
-                                    loadingBrand ||
-                                    loadingCategory ||
-                                    loadingSubmit
-                                }
-                                className="form-control my-1"
-                                onChange={(e) =>
-                                    setProductPrice(e.target.valueAsNumber)
-                                }
-                            />
+                        <label className="text-red">*</label>
+                        <label>Precio:</label>
+                        <input
+                            type="number"
+                            required
+                            value={productPrice}
+                            placeholder="$"
+                            disabled={
+                                loadingBrand || loadingCategory || loadingSubmit
+                            }
+                            className="form-control my-1"
+                            onChange={(e) =>
+                                setProductPrice(e.target.valueAsNumber)
+                            }
+                        />
 
-                            <label>URL Imagen:</label>
-                            <input
-                                type="text"
-                                placeholder="https://link-imagen.png"
-                                value={productImgUrl}
-                                disabled={
-                                    loadingBrand ||
-                                    loadingCategory ||
-                                    loadingSubmit
-                                }
-                                className="form-control my-1"
-                                onChange={(e) =>
-                                    setProductImgUrl(e.target.value)
-                                }
-                            />
+                        <label>URL Imagen:</label>
+                        <input
+                            type="text"
+                            placeholder="https://link-imagen.png"
+                            value={productImgUrl}
+                            disabled={
+                                loadingBrand || loadingCategory || loadingSubmit
+                            }
+                            className="form-control my-1"
+                            onChange={(e) => setProductImgUrl(e.target.value)}
+                        />
 
-                            <label className="text-red">*</label>
-                            <label>Descripcion:</label>
-                            <textarea
-                                required
-                                value={productDescription}
-                                rows={5}
-                                placeholder="bla bla bla"
-                                disabled={
-                                    loadingBrand ||
-                                    loadingCategory ||
-                                    loadingSubmit
-                                }
-                                className="form-control no-resize my-1"
-                                onChange={(e) =>
-                                    setProductDescription(e.target.value)
-                                }
-                            />
-                        </div>
-                        <div className="col">
-                            <label className="text-red">*</label>
-                            <label>Selecciona marca</label>
-                            {loadingBrand ? (
-                                <p>Cargando marcas...</p>
-                            ) : (
-                                <Form.Select
-                                    className="my-1"
-                                    required
-                                    value={productBrandId}
-                                    disabled={
-                                        loadingBrand ||
-                                        loadingCategory ||
-                                        loadingSubmit
-                                    }
-                                    onChange={(e) =>
-                                        setProductBrandId(e.target.value)
-                                    }
-                                >
-                                    <option value={""} disabled hidden>
-                                        Selecciona una opcion...
-                                    </option>
-                                    {dataBrand?.map((brand, index) => (
-                                        <option value={brand.id} key={index}>
-                                            {brand.name}
-                                        </option>
-                                    ))}
-                                </Form.Select>
-                            )}
-                            <label className="text-red">*</label>
-                            <label>Selecciona categoria</label>
-                            {loadingBrand ? (
-                                <p>Cargando categorias...</p>
-                            ) : (
-                                <Form.Select
-                                    className="my-1"
-                                    required
-                                    value={productCategoryId}
-                                    disabled={
-                                        loadingBrand ||
-                                        loadingCategory ||
-                                        loadingSubmit
-                                    }
-                                    onChange={(e) =>
-                                        setProductCategoryId(e.target.value)
-                                    }
-                                >
-                                    <option value={""} disabled hidden>
-                                        Selecciona una opcion...
-                                    </option>
-                                    {dataCategory?.map((category, index) => (
-                                        <option value={category.id} key={index}>
-                                            {category.name}
-                                        </option>
-                                    ))}
-                                </Form.Select>
-                            )}
-                            <label>Cantidad</label>
-                            <input
-                                type="number"
-                                placeholder="Para accesorios"
-                                value={productQuantity}
-                                onChange={(e) =>
-                                    setProductQuantity(e.target.valueAsNumber)
-                                }
-                                disabled={
-                                    loadingBrand ||
-                                    loadingCategory ||
-                                    loadingSubmit
-                                }
-                                className="form-control my-1"
-                            />
-                            <label> Numero minimo jugadores</label>
-                            <input
-                                type="number"
-                                placeholder="Para juegos de mesa"
-                                value={productMinPlayers}
-                                onChange={(e) =>
-                                    setProductMinPlayers(e.target.valueAsNumber)
-                                }
-                                disabled={
-                                    loadingBrand ||
-                                    loadingCategory ||
-                                    loadingSubmit
-                                }
-                                className="form-control my-1"
-                            />
-                            <label>Numero maximo jugadores</label>
-                            <input
-                                type="number"
-                                placeholder="Para juegos de mesa"
-                                value={productMaxPlayers}
-                                onChange={(e) =>
-                                    setProductMaxPlayers(e.target.valueAsNumber)
-                                }
-                                disabled={
-                                    loadingBrand ||
-                                    loadingCategory ||
-                                    loadingSubmit
-                                }
-                                className="form-control my-1"
-                            />
-                            <button type="submit" className="button w-100">
-                                {loadingSubmit
-                                    ? "Creando Producto..."
-                                    : "Crear Producto"}
-                            </button>
-                        </div>
-
-                        {errorBrand && (
-                            <div className="alert alert-danger my-1">
-                                Error: {errorBrand.message}
-                            </div>
-                        )}
-                        {errorCategory && (
-                            <div className="alert alert-danger my-1">
-                                Error: {errorCategory.message}
-                            </div>
-                        )}
-                        {errorSubmit && (
-                            <div className="alert alert-danger my-1">
-                                Error: {errorSubmit.message}
-                            </div>
-                        )}
-                        {createdResource && (
-                            <div className="alert alert-success">
-                                El producto se ha creado correctamente:
-                                {createdResource?.name} (ID:
-                                {createdResource?.id})
-                            </div>
-                        )}
+                        <label className="text-red">*</label>
+                        <label>Descripcion:</label>
+                        <textarea
+                            required
+                            value={productDescription}
+                            rows={5}
+                            placeholder="bla bla bla"
+                            disabled={
+                                loadingBrand || loadingCategory || loadingSubmit
+                            }
+                            className="form-control no-resize my-1"
+                            onChange={(e) =>
+                                setProductDescription(e.target.value)
+                            }
+                        />
                     </div>
-                </Form>
-            </div>
+                    <div className="col">
+                        <label className="text-red">*</label>
+                        <label>Selecciona marca</label>
+                        {loadingBrand ? (
+                            <p>Cargando marcas...</p>
+                        ) : (
+                            <Form.Select
+                                className="my-1"
+                                required
+                                value={productBrandId}
+                                disabled={
+                                    loadingBrand ||
+                                    loadingCategory ||
+                                    loadingSubmit
+                                }
+                                onChange={(e) =>
+                                    setProductBrandId(e.target.value)
+                                }
+                            >
+                                <option value={""} disabled hidden>
+                                    Selecciona una opcion...
+                                </option>
+                                {dataBrand?.map((brand, index) => (
+                                    <option value={brand.id} key={index}>
+                                        {brand.name}
+                                    </option>
+                                ))}
+                            </Form.Select>
+                        )}
+                        <label className="text-red">*</label>
+                        <label>Selecciona categoria</label>
+                        {loadingBrand ? (
+                            <p>Cargando categorias...</p>
+                        ) : (
+                            <Form.Select
+                                className="my-1"
+                                required
+                                value={productCategoryId}
+                                disabled={
+                                    loadingBrand ||
+                                    loadingCategory ||
+                                    loadingSubmit
+                                }
+                                onChange={(e) =>
+                                    setProductCategoryId(e.target.value)
+                                }
+                            >
+                                <option value={""} disabled hidden>
+                                    Selecciona una opcion...
+                                </option>
+                                {dataCategory?.map((category, index) => (
+                                    <option value={category.id} key={index}>
+                                        {category.name}
+                                    </option>
+                                ))}
+                            </Form.Select>
+                        )}
+                        <label>Cantidad</label>
+                        <input
+                            type="number"
+                            placeholder="Para accesorios"
+                            value={productQuantity}
+                            onChange={(e) =>
+                                setProductQuantity(e.target.valueAsNumber)
+                            }
+                            disabled={
+                                loadingBrand || loadingCategory || loadingSubmit
+                            }
+                            className="form-control my-1"
+                        />
+                        <label> Numero minimo jugadores</label>
+                        <input
+                            type="number"
+                            placeholder="Para juegos de mesa"
+                            value={productMinPlayers}
+                            onChange={(e) =>
+                                setProductMinPlayers(e.target.valueAsNumber)
+                            }
+                            disabled={
+                                loadingBrand || loadingCategory || loadingSubmit
+                            }
+                            className="form-control my-1"
+                        />
+                        <label>Numero maximo jugadores</label>
+                        <input
+                            type="number"
+                            placeholder="Para juegos de mesa"
+                            value={productMaxPlayers}
+                            onChange={(e) =>
+                                setProductMaxPlayers(e.target.valueAsNumber)
+                            }
+                            disabled={
+                                loadingBrand || loadingCategory || loadingSubmit
+                            }
+                            className="form-control my-1"
+                        />
+                        <button
+                            type="submit"
+                            className="button button-primary w-100"
+                        >
+                            {loadingSubmit
+                                ? "Creando Producto..."
+                                : "Crear Producto"}
+                        </button>
+                    </div>
+
+                    {errorBrand && (
+                        <div className="alert alert-danger mt-3">
+                            Error: {errorBrand.message}
+                        </div>
+                    )}
+                    {errorCategory && (
+                        <div className="alert alert-danger mt-3">
+                            Error: {errorCategory.message}
+                        </div>
+                    )}
+                    {errorSubmit && (
+                        <div className="alert alert-danger mt-3">
+                            Error: {errorSubmit.message}
+                        </div>
+                    )}
+                    {createdResource && (
+                        <div className="alert alert-success mt-3">
+                            El producto se ha creado correctamente:
+                            {createdResource?.name} (ID:
+                            {createdResource?.id})
+                        </div>
+                    )}
+                </div>
+            </Form>
         </>
     );
 }

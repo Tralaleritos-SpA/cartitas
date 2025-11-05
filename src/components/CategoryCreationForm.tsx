@@ -26,7 +26,7 @@ function CategoryCreationForm() {
 
     return (
         <>
-            <h1>Crear Categoria</h1>
+            <h3>Crear Categoria</h3>
             <Form onSubmit={handleSubmit}>
                 <input
                     type="text"
@@ -38,7 +38,7 @@ function CategoryCreationForm() {
                     className="form-control"
                 />
 
-                <button type="submit" disabled={loading} className="button">
+                <button type="submit" disabled={loading} className="button button-primary">
                     {loading ? "Creando Categoria..." : "Crear Categoria"}
                 </button>
 
