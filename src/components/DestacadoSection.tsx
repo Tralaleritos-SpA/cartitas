@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import type { Product } from "../types/Product";
+import type { Product } from "../types/productTypes";
 import ProductoDestacado from "./ProductoDestacado";
 
 function DestacadoSection({ products }: { products: Product[] }) {
@@ -8,7 +8,7 @@ function DestacadoSection({ products }: { products: Product[] }) {
     const scroll = (direction: "left" | "right") => {
         const container = scrollRef.current;
         if (container) {
-            const scrollAmount = 400;
+            const scrollAmount = 600;
             container.scrollBy({
                 left: direction === "left" ? -scrollAmount : scrollAmount,
                 behavior: "smooth",
@@ -27,8 +27,8 @@ function DestacadoSection({ products }: { products: Product[] }) {
                             brand={product.brand}
                             stock={product.stock}
                             price={product.price}
-                            image={product.image}
-                            desc={product.desc}
+                            img_url={product.img_url}
+                            description={product.description}
                             category={product.category}
                             key={index}
                         />

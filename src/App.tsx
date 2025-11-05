@@ -10,6 +10,9 @@ import ProductPage from "./pages/ProductPage";
 import Layout from "./layout/Layout";
 import NotFound from "./pages/404";
 import Eventos from "./pages/Eventos";
+import AdminPanel from "./pages/AdminPanel";
+import Dashboard from "./pages/Dashboard";
+import AddItemsTestApi from "./pages/AddItemsTestApi";
 import Carrito from "./pages/Carrito";
 function App() {
     return (
@@ -19,17 +22,23 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/Productos" element={<Products />} />
                     <Route path="/Productos/:category" element={<Products />} />
-                    <Route
-                        path="/Productos/:category/:id"
-                        element={<ProductPage />}
-                    />
+                    <Route path="/Producto/:id" element={<ProductPage />} />
                     <Route path="/Eventos" element={<Eventos />} />
                     <Route path="/Carrito" element={<Carrito />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
 
+                    <Route path="/APItest" element={<AddItemsTestApi />} />
+
                     {/*si no encuentra la pag manda 404*/}
                     <Route path="*" element={<NotFound />} />
+                    {/* panel de administrador */}
+                    <Route path="/admin" element={<AdminPanel />}>
+                        <Route index element={<Dashboard />} />
+                        <Route path="dashboard" element={<Dashboard />} />
+                    </Route>
+
+
                 </Routes>
             </Layout>
         </>
