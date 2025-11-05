@@ -13,6 +13,7 @@ import Eventos from "./pages/Eventos";
 import AdminPanel from "./pages/AdminPanel";
 import Dashboard from "./pages/Dashboard";
 import AddItemsTestApi from "./pages/AddItemsTestApi";
+import Carrito from "./pages/Carrito";
 function App() {
     return (
         <>
@@ -23,6 +24,7 @@ function App() {
                     <Route path="/Productos/:category" element={<Products />} />
                     <Route path="/Producto/:id" element={<ProductPage />} />
                     <Route path="/Eventos" element={<Eventos />} />
+                    <Route path="/Carrito" element={<Carrito />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
 
