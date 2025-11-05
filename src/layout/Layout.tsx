@@ -8,7 +8,7 @@ interface LayoutProps {
 
 function Layout({ children }: LayoutProps) {
     const location = useLocation();
-    const pagesWithoutLayout = ["/login", "/register"]
+    const pagesWithoutLayout = ["/login", "/register", "/carrito"];
     const prefixWithoutLayout = ["/admin"]
 
     if (pagesWithoutLayout.includes(location.pathname) || prefixWithoutLayout.some(prefix => location.pathname.startsWith(prefix))) {

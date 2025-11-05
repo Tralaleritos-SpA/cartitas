@@ -13,6 +13,9 @@ dist-ssr
 *.local
 .vite
 
+# Ignore api keys/enviroment variables
+.env 
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
