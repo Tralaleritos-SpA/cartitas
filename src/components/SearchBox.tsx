@@ -33,13 +33,12 @@ function SearchBox({
                 <h4>Busqueda</h4>
                 <input
                     type="text"
-                    placeholder="Buscar..."
+                    className="form-control my-1"
+                    placeholder="Nombre producto..."
                     onChange={onChange}
                 />
-
-                <p>precio (slider)</p>
                 <label htmlFor="customRange1" className="form-label">
-                    Precio
+                    Precio (slider)
                 </label>
                 <input
                     type="range"
@@ -52,7 +51,10 @@ function SearchBox({
                 {brandsLoading ? (
                     <div>Brands loading...</div>
                 ) : (
-                    <Form.Select>
+                    <Form.Select className="my-1" value={""}>
+                        <option value={""} disabled hidden>
+                            Selecciona una marca...
+                        </option>
                         {brands?.map((brand, index) => (
                             <option key={index + 1}>{brand.name}</option>
                         ))}
