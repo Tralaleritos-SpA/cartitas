@@ -9,7 +9,7 @@ function ValidateLogin(email: string, password: string) {
     );
 
     if (user) {
-        return true
+        return user;
 
     } else {
         return false

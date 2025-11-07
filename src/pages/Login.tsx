@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import{ useEffect, useState } from "react";
+import {Link} from "react-router-dom";
 import ValidateLogin from "../hooks/Login";
 
 
@@ -15,20 +15,27 @@ function Login() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
 
+    
+    const user = ValidateLogin(email, password);
 
-    const userIsValid = ValidateLogin(email, password);
-    setIsSuccess(userIsValid)
-    /*si tiene el rol de admin se dirige al panel*/
-    if (userIsValid) {
+    if (user) {
+      setIsSuccess(true);
       setMessage("Inicio de sesión exitoso, redirigiendo...");
-      setTimeout(() => (window.location.href = '/'
-        , 1500))
+      setTimeout(() => {
+        if(user.role=="admin"){window.location.href = "/admin";
+        } else {
+          window.location.href = "/";
+        }
+      }, 1500);
+  
     } else {
+      setIsSuccess(false);
       setMessage("Correo o contraseña incorrectos.");
     }
-  }
-};
+  };
+
 
 return (
   <div className="container">
@@ -97,5 +104,6 @@ return (
   </div>
 );
 }
+
 
 export default Login;
