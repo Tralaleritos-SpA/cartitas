@@ -38,7 +38,10 @@ describe('Prueba pagina login', () => {
     expect(resultado).toBe(false)
   })
 
-    
+  test("tiene que devolver false si email o password están vacíos", () => {
+  const resultado = ValidateLogin("", "");
+  expect(resultado).toBe(false);
+  })
  
 
 })
