@@ -1,7 +1,7 @@
 import { describe, test, expect } from "vitest";
 import { ValidacionR } from "../../src/hooks/ValidacionR";
 
-describe("ValidacionR", () => {
+describe("Validaciones de registro", () => {
   test("si el correo no contiene el @ manda error", () => {
     const result = ValidacionR("correo", "123456", "123456");
     expect(result.email).toBe("Ingresa un correo válido.");
