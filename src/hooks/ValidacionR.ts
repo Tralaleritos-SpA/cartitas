@@ -1,4 +1,4 @@
-// src/utils/ValidateRegister.ts
+//logica separada porq sino no podria hacerla
 export function ValidacionR(email: string, password: string, rpassword: string) {
   const error: { email?: string; password?: string; rpassword?: string } = {};
 
