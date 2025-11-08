@@ -1,4 +1,5 @@
 import { useState } from "react";
+import {ValidacionR} from "../hooks/ValidacionR";
 
 export function useRvalidation() {
    
@@ -9,18 +10,7 @@ export function useRvalidation() {
     const [valid, setValid]= useState(false);
 
     const validate=()=>{
-        const newErros: typeof error={};
-        //validar email
-        if(!email.includes("@")){
-            newErros.email="Ingresa un correo válido.";
-        }
-        if(!password){
-            newErros.password="Ingresa tu contraseña.";
-        }
-        if(!rpassword || rpassword !== password){
-            newErros.rpassword="Las contraseñas no coinciden.";
-        }
-
+        const newErros= ValidacionR(email, password, rpassword);
         setError(newErros);
         return Object.keys(newErros).length===0;
     };
