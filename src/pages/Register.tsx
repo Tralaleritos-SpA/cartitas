@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import {useRvalidation} from "../hooks/Rvalidation";
 
 function Register() {
+    const {email,setEmail,password,setPassword,rpassword, setRpassword, handleSubmit, error, valid} =
     useRvalidation();
     return (
         <div className="container">
@@ -13,8 +14,8 @@ function Register() {
                     <div className="col-12 col-md-6 col-lg-4">
                         <div className="box login-box">
                             <form
-                                id="formRegistro"
-                                className="needs-validation"
+                                onSubmit={handleSubmit}
+                                noValidate
                             >
                                 <h3 className="text-center my-4">Registro</h3>
 
@@ -27,14 +28,16 @@ function Register() {
                                     </label>
                                     <input
                                         type="email"
-                                        className="form-control"
-                                        id="email"
-                                        placeholder="Ingresa tu correo"
-                                        required
+                                        className={`form-control ${error.email ? "is-invalid" : ""}`}
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        placeholder="Ingresa tu correo"   
                                     />
-                                    <div className="invalid-feedback">
-                                        Ingresa un correo válido.
-                                    </div>
+                                    {error.email && (
+                                        <div className="invalid-feedback">
+                                            {error.email}
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="mb-3">
@@ -47,13 +50,15 @@ function Register() {
                                     <input
                                         type="password"
                                         className="form-control"
-                                        id="password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
                                         placeholder="Ingresa tu contraseña"
-                                        required
                                     />
-                                    <div className="invalid-feedback">
-                                        Ingresa tu contraseña.
-                                    </div>
+                                    {error.password && (
+                                        <div className="invalid-feedback">
+                                            {error.password}
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="mb-3">
@@ -66,25 +71,22 @@ function Register() {
                                     <input
                                         type="password"
                                         className="form-control"
-                                        id="rpassword"
+                                        value={rpassword}
+                                        onChange={(e) => setRpassword(e.target.value)}
                                         placeholder="Reingresa tu contraseña"
-                                        required
+                                    
                                     />
-                                    <div
-                                        className="invalid-feedback"
-                                        id="passwordMismatch"
-                                    >
-                                        Las contraseñas no coinciden.
-                                    </div>
+                                    {error.rpassword && (
+                                        <div className="invalid-feedback">
+                                            {error.rpassword}
+                                        </div>
+                                    )}
                                 </div>
-                                <div
-                                    id="formMessage"
-                                    className="alert alert-success text-center d-none"
-                                    role="alert"
-                                >
-                                    Registro exitoso. Redirigiendo a la página
-                                    de inicio...
+                                {valid && (
+                                <div className="alert alert-success text-center" role="alert">
+                                    Registro exitoso. Redirigiendo a la página de inicio de sesión...
                                 </div>
+                                )}
 
                                 <button type="submit" className="button w-100">
                                     Registrarse
