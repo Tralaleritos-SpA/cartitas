@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import Rvalidation from "../hooks/Rvalidation";
+import {useRvalidation} from "../hooks/Rvalidation";
 
 function Register() {
-    Rvalidation(); //llama al componente
+    useRvalidation();
     return (
         <div className="container">
             <Link to="/" className="link">

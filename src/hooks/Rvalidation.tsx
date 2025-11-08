@@ -1,52 +1,40 @@
-import { useEffect } from "react";
+import { useState } from "react";
 
-export default function Rvalidation() {
-    useEffect(() => {
-        const form = document.getElementById("formRegistro") as HTMLFormElement | null;
-        const password = document.getElementById("password") as HTMLInputElement | null;
-        const rpassword = document.getElementById("rpassword") as HTMLInputElement | null;
-        const message = document.getElementById("formMessage") as HTMLElement | null;
+export function useRvalidation() {
+   
+    const [email, setEmail]= useState("");
+    const [password, setPassword]= useState("");
+    const [rpassword, setRpassword]= useState("");
+    const [error, setError]= useState<{email?: string; password?: string; rpassword?: string}>({});
+    const [valid, setValid]= useState(false);
 
-        if (!form || !password || !rpassword || !message) return;
+    const validate=()=>{
+        const newErros: typeof error={};
+        //validar email
+        if(!email.includes("@")){
+            newErros.email="Ingresa un correo válido.";
+        }
+        if(!password){
+            newErros.password="Ingresa tu contraseña.";
+        }
+        if(password!==rpassword){
+            newErros.rpassword="Las contraseñas no coinciden.";
+        }
 
-        const handleSubmit = (e: Event) => {
-            e.preventDefault();
-            let valid = true;
+        setError(newErros);
+        return Object.keys(newErros).length===0;
+    };
 
-            // Validar contraseña
-            if (!password.value) {
-                password.classList.add("is-invalid");
-                valid = false;
-            } else {
-                password.classList.remove("is-invalid");
-                password.classList.add("is-valid");
-            }
+    const handleSubmit=(e: React.FormEvent)=>{
+        e.preventDefault();
+        if(validate()){
+            setValid(true);
+            setTimeout(() => {
+                window.location.href="/login";
+            }, 1500);
+        }
+    };
 
-            // Validar repetición
-            if (!rpassword.value || password.value !== rpassword.value) {
-                rpassword.classList.add("is-invalid");
-                valid = false;
-            } else {
-                rpassword.classList.remove("is-invalid");
-                rpassword.classList.add("is-valid");
-            }
+    return {email,setEmail,password,setPassword,rpassword, setRpassword, handleSubmit, error, valid};
+};
 
-            // Si todo es válido
-            if (valid) {
-                message.classList.remove("d-none");
-                document.body.classList.add("fade-out");
-
-                setTimeout(() => {
-                    window.location.href = "/"; // par donde se redigira la pagina luego de registrarse
-                }, 2000);
-            }
-        };
-
-        form.addEventListener("submit", handleSubmit);
-
-        // cleanup al desmontar el componente
-        return () => {
-            form.removeEventListener("submit", handleSubmit);
-        };
-    }, []);
-}
