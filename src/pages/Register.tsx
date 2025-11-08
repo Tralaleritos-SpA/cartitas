@@ -49,7 +49,7 @@ function Register() {
                                     </label>
                                     <input
                                         type="password"
-                                        className="form-control"
+                                        className={`form-control ${error.password ? "is-invalid" : ""}`}
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         placeholder="Ingresa tu contraseña"
@@ -70,7 +70,7 @@ function Register() {
                                     </label>
                                     <input
                                         type="password"
-                                        className="form-control"
+                                        className={`form-control ${error.rpassword ? "is-invalid" : ""}`}
                                         value={rpassword}
                                         onChange={(e) => setRpassword(e.target.value)}
                                         placeholder="Reingresa tu contraseña"

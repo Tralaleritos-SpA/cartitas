@@ -17,7 +17,7 @@ export function useRvalidation() {
         if(!password){
             newErros.password="Ingresa tu contraseña.";
         }
-        if(password!==rpassword){
+        if(!rpassword || rpassword !== password){
             newErros.rpassword="Las contraseñas no coinciden.";
         }
 
@@ -30,7 +30,7 @@ export function useRvalidation() {
         if(validate()){
             setValid(true);
             setTimeout(() => {
-                window.location.href="/login";
+                window.location.href="/";
             }, 1500);
         }
     };
