@@ -81,7 +81,7 @@ export async function createProduct(productBody: {
 
         if (!response.ok) {
             throw new Error(
-                `Failed to create brand. Status: ${response.status}`
+                `Failed to create product. Status: ${response.status}`
             );
         }
 
@@ -90,7 +90,7 @@ export async function createProduct(productBody: {
     } catch (error) {
         const errorMessage =
             error instanceof Error ? error.message : String(error);
-        throw new Error("API Error in createCategory:" + errorMessage);
+        throw new Error("API Error in createProduct:" + errorMessage);
     }
 }
 
