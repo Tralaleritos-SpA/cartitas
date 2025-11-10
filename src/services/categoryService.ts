@@ -64,3 +64,23 @@ export async function createCategory(categoryName: {
         throw new Error("API Error in createCategory:" + errorMessage);
     }
 }
+
+export async function deleteCategory(brandId: string): Promise<void> {
+    try {
+        const response = await fetch(apiURL + "/" + brandId, {
+            method: "DELETE",
+        });
+
+        if (!response.ok) {
+            throw new Error(
+                `Failed to delete category. Status: ${response.status}`
+            );
+        }
+
+        return;
+    } catch (error) {
+        const errorMessage =
+            error instanceof Error ? error.message : String(error);
+        throw new Error("API Error in deleteCategory: " + errorMessage);
+    }
+}
