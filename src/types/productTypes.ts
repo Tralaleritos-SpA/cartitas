@@ -12,7 +12,7 @@ export interface Category {
 
 export interface Product {
     id: string;
-    isActive?: boolean;
+    active: boolean;
     name: string;
     brand: Brand;
     category: Category;
