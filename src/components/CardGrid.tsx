@@ -8,7 +8,7 @@ interface CardGridProps {
 }
 function CardGrid({ products, loading, error }: CardGridProps) {
     if (loading) {
-        return <div>Loading products...</div>;
+        return <div>Cargando productos...</div>;
     }
 
     if (error) {
@@ -17,8 +17,8 @@ function CardGrid({ products, loading, error }: CardGridProps) {
         );
     }
 
-    if (!products) {
-        return <p>No products to display.</p>;
+    if (!products || products.length < 1) {
+        return <p>No hay productos para mostrar.</p>;
     }
     return (
         <div className="card-grid col-sm-12 col-md-8">
