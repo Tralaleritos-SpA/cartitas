@@ -22,7 +22,6 @@ export const useFetch = <T>(fetcher: FetchFunction<T>) => {
                 if (err instanceof Error) {
                     setError(err);
                 } else {
-                    // If it's not an Error (e.g., a string thrown from productService),
                     // wrap it in a new Error object before setting the state.
                     setError(new Error(String(err)));
                 }
