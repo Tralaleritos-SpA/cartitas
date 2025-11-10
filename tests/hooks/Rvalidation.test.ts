@@ -21,4 +21,9 @@ describe("Validaciones de registro", () => {
     const result = ValidacionR("correo@valido.com", "123456", "123456");
     expect(result).toEqual({});
   });
+
+  test("si la contraseña es menor a 6 caracteres manda error", () => {
+    const result = ValidacionR("correomayor6@gmail.com", "123", "123");
+    expect(result.password).toBe("La contraseña debe tener al menos 6 caracteres.");
+  });
 });

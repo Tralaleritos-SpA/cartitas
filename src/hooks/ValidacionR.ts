@@ -8,6 +8,8 @@ export function ValidacionR(email: string, password: string, rpassword: string) 
 
   if (!password) {
     error.password = "Ingresa tu contraseña.";
+  }else if (password.length < 6) {
+    error.password = "La contraseña debe tener al menos 6 caracteres.";
   }
 
   if (rpassword !== password) {

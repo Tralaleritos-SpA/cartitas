@@ -3,7 +3,7 @@ import { describe, expect, test } from "vitest";
 
 describe('Prueba pagina login', () => {
 
-  const users = [ {
+    const users = [ {
         "id": 1,
         "name": "Matias Gonzalez",
         "role": "user",
@@ -26,7 +26,6 @@ describe('Prueba pagina login', () => {
     }]
 
   test('debe devolver correcto si el usuario y contraseña  coinciden', () => {
-
 
     const user = users[0]
 
