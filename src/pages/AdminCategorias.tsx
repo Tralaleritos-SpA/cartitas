@@ -1,13 +1,16 @@
 import CategoryCreationForm from "../components/CategoryCreationForm";
+import { useDelete } from "../hooks/useDelete";
 import { useFetch } from "../hooks/useFetch";
-import { fetchActiveCategories } from "../services/categoryService";
+import { deleteCategory, fetchCategories } from "../services/categoryService";
 
 function AdminCategorias() {
     const {
         data: dataCategory,
         loading: loadingCategory,
         error: errorCategory,
-    } = useFetch(fetchActiveCategories);
+    } = useFetch(fetchCategories);
+
+    const { remove, loading, error } = useDelete(deleteCategory);
 
     return (
         <div className="dashboard-container">
@@ -28,16 +31,14 @@ function AdminCategorias() {
                     <table className="data-table">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Nombre</th>
                                 <th>Estado</th>
-                                <th>Toggle Estado</th>
+                                <th>Cambiar Estado</th>
                             </tr>
                         </thead>
                         <tbody>
                             {dataCategory.map((data, index) => (
                                 <tr key={index}>
-                                    <td>{data.id}</td>
                                     <td>{data.name}</td>
                                     <td>
                                         {data.active ? (
@@ -51,9 +52,18 @@ function AdminCategorias() {
                                         )}
                                     </td>
                                     <td>
-                                        <button className="button button-primary w-100 my-1">
+                                        <button
+                                            className="button button-primary my-1"
+                                            onClick={() => remove(data.id)}
+                                        >
                                             toggle
                                         </button>
+                                        {loading}
+                                        {error && (
+                                            <div className="alert alert-danger mt-3">
+                                                Error: {error.message}
+                                            </div>
+                                        )}
                                     </td>
                                 </tr>
                             ))}
