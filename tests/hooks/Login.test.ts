@@ -1,12 +1,32 @@
-
-
-import users from "../../src/data/user.json"
 import ValidateLogin from "../../src/hooks/Login";
 import { describe, expect, test } from "vitest";
 
 describe('Prueba pagina login', () => {
 
+  const users = [ {
+        "id": 1,
+        "name": "Matias Gonzalez",
+        "role": "user",
+        "email": "matiasgonazalez@gmail.com",
+        "password": "123456"
+    },
+    {
+        "id": 2,
+        "name": "Admin",
+        "role": "admin",
+        "email": "admin@example.com",
+        "password": "123456"
+    },
+    {
+        "id": 3,
+        "name": "Jane Doe",
+        "role": "user",
+        "email": "jane.doe@example.com",
+        "password": "jane123"
+    }]
+
   test('debe devolver correcto si el usuario y contraseña  coinciden', () => {
+
 
     const user = users[0]
 
