@@ -93,3 +93,23 @@ export async function createProduct(productBody: {
         throw new Error("API Error in createCategory:" + errorMessage);
     }
 }
+
+export async function deleteProduct(productId: string): Promise<void> {
+    try {
+        const response = await fetch(apiURL + "/" + productId, {
+            method: "DELETE",
+        });
+
+        if (!response.ok) {
+            throw new Error(
+                `Failed to delete product. Status: ${response.status}`
+            );
+        }
+
+        return;
+    } catch (error) {
+        const errorMessage =
+            error instanceof Error ? error.message : String(error);
+        throw new Error("API Error in deleteProduct: " + errorMessage);
+    }
+}

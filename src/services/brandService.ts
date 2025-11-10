@@ -62,3 +62,23 @@ export async function createBrand(brandName: { name: string }): Promise<Brand> {
         throw new Error("API Error in createBrand:" + errorMessage);
     }
 }
+
+export async function deleteBrand(brandId: string): Promise<void> {
+    try {
+        const response = await fetch(apiURL + "/" + brandId, {
+            method: "DELETE",
+        });
+
+        if (!response.ok) {
+            throw new Error(
+                `Failed to delete brand. Status: ${response.status}`
+            );
+        }
+
+        return;
+    } catch (error) {
+        const errorMessage =
+            error instanceof Error ? error.message : String(error);
+        throw new Error("API Error in deleteBrand: " + errorMessage);
+    }
+}
