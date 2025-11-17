@@ -28,7 +28,7 @@ function Products() {
         if (productList) {
             return category
                 ? productList.filter(
-                      (prod: Product) => prod.category.toString() === category
+                      (prod: Product) => prod.category.name.toString() === category
                   )
                 : productList;
         } else {
