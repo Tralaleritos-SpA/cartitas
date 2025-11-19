@@ -22,9 +22,12 @@ function CarritoProduct({
                 style={{ maxWidth: "10rem" }}
                 alt={product.name}
             />
-            <div>
+            <div className="flex-grow-1">
                 <p>{product.name}</p>
                 <p>{clpFormatter.format(product.price)}</p>
+            </div>
+            <div className="ms-auto">
+
                 <span className="d-inline-flex align-items-center gap-2">
                     <button className="button" onClick={onDecrease}>
                         &minus;

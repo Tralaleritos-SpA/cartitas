@@ -23,8 +23,7 @@ function Carrito() {
 
     const {
         data: products,
-        loading,
-        error,
+  
     } = useFetch<Product[]>(fetchActiveProducts);
 
     const cartProducts: CartProduct[] = useMemo(() => {
@@ -76,7 +75,7 @@ function Carrito() {
                 &#8617; Regresar a la tienda
             </Link>
             <div className="row pt-3">
-                <div className="col-sm-12 col-md-6 col-lg-6">
+                <div className="col-sm-12 col-md-6 col-lg-6 ">
                     <CarritoProductList
                         products={cartProducts}
                         onIncrease={(id, currentQty) =>
