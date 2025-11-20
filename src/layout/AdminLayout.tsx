@@ -1,6 +1,8 @@
 import { NavLink, Outlet } from "react-router-dom";
+import { useAuth } from "../hooks/userAutenticacion";
 
 function AdminLayout() {
+  const { logout } = useAuth();
   return (
     <div className="admin-layout">
 
@@ -12,7 +14,7 @@ function AdminLayout() {
           <li><NavLink className="sidebar-link" to="/admin/productos">Productos</NavLink></li>
           <li><NavLink className="sidebar-link" to="/admin/marcas">Marcas</NavLink></li>
           <li><NavLink className="sidebar-link" to="/admin/categorias">Categorías</NavLink></li>
-          <li><NavLink to="/" className="sidebar-link">
+          <li><NavLink to="/" className="sidebar-link" onClick={logout}>
             Cerrar sesión
             </NavLink>
           </li>
