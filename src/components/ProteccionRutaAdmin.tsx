@@ -4,9 +4,9 @@ import { useAuth } from "../hooks/userAutenticacion";
 function AdminRoute() {
   const { user } = useAuth();
 
-  // si el usuario no esta logueado lo manda al login
+  // si el usuario no esta logueado lo manda al home
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
 
   // si esta logueado pero no es admin lo manda al home

@@ -17,12 +17,12 @@ function Login() {
 
   useEffect(() => {
     document.title = "Inicio Sesión";
-
+    //si hay un usuario en el localStorage redirigira segun el rol correspondiente
     try {
-      const rawUser = localStorage.getItem("user");
-      if (!rawUser) return;
+      const userStorage = localStorage.getItem("user");
+      if (!userStorage) return;
 
-      const user: StoredUser = JSON.parse(rawUser);
+      const user: StoredUser = JSON.parse(userStorage);
 
       if (user?.role === "admin") {
         window.location.href = "/admin";
@@ -45,7 +45,7 @@ function Login() {
     if (user) {
       setIsSuccess(true);
       setMessage("Inicio de sesión exitoso, redirigiendo...");
-      try {
+      try {//guarda los datos en el localstorage sin la contraseña
         const { password: _password, ...passwordSinContraseña } = user as any;
         localStorage.setItem("user", JSON.stringify(passwordSinContraseña));
       } catch (error) {
