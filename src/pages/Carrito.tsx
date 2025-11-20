@@ -53,9 +53,9 @@ function Carrito() {
             ),
         [cartProducts]
     );
-
-    const descuentos = 0; // para futuro: cupones, etc.
-    const envio = cartProducts.length > 0 ? 5000 : 0; // aquí podrías poner costo de envío
+    
+    const descuentos = 0; 
+    const envio = cartProducts.length > 0 ? 5000 : 0; 
     const total = subtotal - descuentos + envio;
 
     const handleChangeQuantity = (id: string, newQty: number) => {
