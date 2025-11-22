@@ -10,7 +10,7 @@ export interface User {
     phoneNumber: string | null;
 }
 
-interface Role {
+export interface Role {
     id: string;
     active: boolean;
     name: string;
