@@ -12,12 +12,12 @@ import NotFound from "./pages/404";
 import Eventos from "./pages/Eventos";
 import AdminPanel from "./layout/AdminLayout";
 import AdminDashboard from "./pages/AdminDashboard";
-import AddItemsTestApi from "./pages/AddItemsTestApi";
 import AdminProductos from "./pages/AdminProductos";
 import AdminMarcas from "./pages/AdminMarcas";
 import AdminCategorias from "./pages/AdminCategorias";
 
 import Carrito from "./pages/Carrito";
+import APITest from "./pages/ApiTest";
 function App() {
     return (
         <>
@@ -32,7 +32,7 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
 
-                    <Route path="/APItest" element={<AddItemsTestApi />} />
+                    <Route path="/APItest" element={<APITest />} />
 
                     {/* panel de administrador */}
                     <Route path="/admin" element={<AdminPanel />}>

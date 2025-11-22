@@ -1,6 +1,6 @@
 import ProductCreationForm from "../components/ProductCreationForm";
 
-function AddItemsTestApi() {
+function APITest() {
     return (
         <div className="container">
             <ProductCreationForm />
@@ -8,4 +8,4 @@ function AddItemsTestApi() {
     );
 }
 
-export default AddItemsTestApi;
+export default APITest;
