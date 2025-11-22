@@ -38,7 +38,7 @@ export async function fetchActiveRoles(): Promise<Role[]> {
     }
 }
 
-export async function createBrand(roleName: { name: string }): Promise<Role> {
+export async function createRole(roleName: { name: string }): Promise<Role> {
     try {
         const response = await fetch(apiURL, {
             method: "POST",
