@@ -1,9 +1,9 @@
-import ProductCreationForm from "../components/ProductCreationForm";
+import RoleCreationForm from "../components/RoleCreationForm";
 
 function APITest() {
     return (
         <div className="container">
-            <ProductCreationForm />
+            <RoleCreationForm />
         </div>
     );
 }
