@@ -1,20 +1,43 @@
-import type { Product } from "../types/Product";
+import type { Product } from "../types/productTypes";
+import { clpFormatter } from "../hooks/currencyFormat";
 
-function CarritoProduct(product: Product) {
+type CartProduct = Product & { quantity: number };
+
+interface CarritoProductProps {
+    product: CartProduct;
+    onIncrease: () => void;
+    onDecrease: () => void;
+}
+
+function CarritoProduct({
+    product,
+    onIncrease,
+    onDecrease,
+}: CarritoProductProps) {
     return (
-        <div className="box mb-3">
+        <div className="box mb-3 d-flex gap-3 align-items-center">
             <img
-                src={product.image}
+                src={product.img_url}
                 className="box-product-img"
                 style={{ maxWidth: "10rem" }}
-            ></img>
-            <p>{product.name}</p>
-            <p>${product.price}</p>
-            <span className="d-inline-flex">
-                <button className="button">&minus;</button>
-                <p>0</p>
-                <button className="button">&#x2B;</button>
-            </span>
+                alt={product.name}
+            />
+            <div className="flex-grow-1">
+                <p>{product.name}</p>
+                <p>{clpFormatter.format(product.price)}</p>
+            </div>
+            <div className="ms-auto">
+
+                <span className="d-inline-flex align-items-center gap-2">
+                    <button className="button" onClick={onDecrease}>
+                        &minus;
+                    </button>
+                    <p className="mb-0">{product.quantity}</p>
+                    <button className="button" onClick={onIncrease}>
+                        &#x2B;
+                    </button>
+                </span>
+            </div>
         </div>
     );
 }
