@@ -71,77 +71,79 @@ function UserCreationForm() {
             </p>
 
             <Form onSubmit={handleSubmit}>
-                <div className="align-items-center">
-                    <label className="text-red">*</label>
-                    <label>Nombre:</label>
-                    <input
-                        type="text"
-                        required
-                        value={userName}
-                        disabled={loadingRole || loadingSubmit}
-                        className="form-control my-1"
-                        onChange={(e) => setUserName(e.target.value)}
-                    />
-                    <label className="text-red">*</label>
-                    <label>Apellido:</label>
-                    <input
-                        type="text"
-                        required
-                        value={userLastName}
-                        disabled={loadingRole || loadingSubmit}
-                        className="form-control my-1"
-                        onChange={(e) => setUserLastName(e.target.value)}
-                    />
-                    <label className="text-red">*</label>
-                    <label>Email:</label>
-                    <input
-                        type="email"
-                        required
-                        value={userEmail}
-                        disabled={loadingRole || loadingSubmit}
-                        className="form-control my-1"
-                        onChange={(e) => setUserEmail(e.target.value)}
-                    />
-                    <label>Numero telefonico:</label>
-                    <input
-                        type="tel"
-                        value={userPhoneNumber}
-                        disabled={loadingRole || loadingSubmit}
-                        className="form-control my-1"
-                        onChange={(e) => setUserPhoneNumber(e.target.value)}
-                    />
-                    <label className="text-red">*</label>
-                    <label>ContraseNIa:</label>
-                    <input
-                        type="password"
-                        required
-                        value={userPassword}
-                        disabled={loadingRole || loadingSubmit}
-                        className="form-control my-1"
-                        onChange={(e) => setUserPassword(e.target.value)}
-                    />
-                    <label>
-                        Asignar rol (No seleccionar nada para cliente):
-                    </label>
-                    {loadingRole ? (
-                        <p>Cargando roles...</p>
-                    ) : (
-                        <Form.Select
-                            className="my-1"
-                            value={userRoleId}
+                <div className="row">
+                    <div className="col">
+                        <label className="text-red">*</label>
+                        <label>Nombre:</label>
+                        <input
+                            type="text"
+                            required
+                            value={userName}
                             disabled={loadingRole || loadingSubmit}
-                            onChange={(e) => setUserRoleId(e.target.value)}
-                        >
-                            <option value={""} disabled hidden>
-                                Selecciona una opcion...
-                            </option>
-                            {dataRole?.map((role, index) => (
-                                <option value={role.id} key={index}>
-                                    {role.name}
-                                </option>
-                            ))}
-                        </Form.Select>
-                    )}
+                            className="form-control my-1"
+                            onChange={(e) => setUserName(e.target.value)}
+                        />
+                        <label className="text-red">*</label>
+                        <label>Email:</label>
+                        <input
+                            type="email"
+                            required
+                            value={userEmail}
+                            disabled={loadingRole || loadingSubmit}
+                            className="form-control my-1"
+                            onChange={(e) => setUserEmail(e.target.value)}
+                        />
+                    </div>
+                    <div className="col">
+                        <label className="text-red">*</label>
+                        <label>Apellido:</label>
+                        <input
+                            type="text"
+                            required
+                            value={userLastName}
+                            disabled={loadingRole || loadingSubmit}
+                            className="form-control my-1"
+                            onChange={(e) => setUserLastName(e.target.value)}
+                        />
+                        <label className="text-red">*</label>
+                        <label>ContraseNIa:</label>
+                        <input
+                            type="password"
+                            required
+                            value={userPassword}
+                            disabled={loadingRole || loadingSubmit}
+                            className="form-control my-1"
+                            onChange={(e) => setUserPassword(e.target.value)}
+                        />
+                    </div>
+                    <div className="col">
+                        <label>Numero telefonico:</label>
+                        <input
+                            type="tel"
+                            value={userPhoneNumber}
+                            disabled={loadingRole || loadingSubmit}
+                            className="form-control my-1"
+                            onChange={(e) => setUserPhoneNumber(e.target.value)}
+                        />
+                        <label>Asignar rol:</label>
+                        {loadingRole ? (
+                            <p>Cargando roles...</p>
+                        ) : (
+                            <Form.Select
+                                className="my-1"
+                                value={userRoleId}
+                                disabled={loadingRole || loadingSubmit}
+                                onChange={(e) => setUserRoleId(e.target.value)}
+                            >
+                                <option value={""}>cliente</option>
+                                {dataRole?.map((role, index) => (
+                                    <option value={role.id} key={index}>
+                                        {role.name}
+                                    </option>
+                                ))}
+                            </Form.Select>
+                        )}
+                    </div>
                     <button
                         type="submit"
                         className="button button-primary w-100"
