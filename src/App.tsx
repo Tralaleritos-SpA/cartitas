@@ -18,6 +18,8 @@ import AdminCategorias from "./pages/AdminCategorias";
 
 import Carrito from "./pages/Carrito";
 import APITest from "./pages/ApiTest";
+import AdminUsuarios from "./pages/AdminUsuarios";
+import AdminRoles from "./pages/AdminRoles";
 function App() {
     return (
         <>
@@ -41,8 +43,16 @@ function App() {
                             path="/admin/productos"
                             element={<AdminProductos />}
                         />
+                        <Route
+                            path="/admin/usuarios"
+                            element={<AdminUsuarios />}
+                        />
+                        <Route path="/admin/roles" element={<AdminRoles />} />
                         <Route path="/admin/marcas" element={<AdminMarcas />} />
-                        <Route path="/admin/categorias" element={<AdminCategorias />} />
+                        <Route
+                            path="/admin/categorias"
+                            element={<AdminCategorias />}
+                        />
                     </Route>
 
                     {/*si no encuentra la pag manda 404*/}
