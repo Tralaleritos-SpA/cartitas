@@ -12,13 +12,15 @@ import NotFound from "./pages/404";
 import Eventos from "./pages/Eventos";
 import AdminPanel from "./layout/AdminLayout";
 import AdminDashboard from "./pages/AdminDashboard";
-import AddItemsTestApi from "./pages/AddItemsTestApi";
 import AdminProductos from "./pages/AdminProductos";
 import AdminMarcas from "./pages/AdminMarcas";
 import AdminCategorias from "./pages/AdminCategorias";
 import AdminRoute from "./components/ProteccionRutaAdmin";
 
 import Carrito from "./pages/Carrito";
+import APITest from "./pages/ApiTest";
+import AdminUsuarios from "./pages/AdminUsuarios";
+import AdminRoles from "./pages/AdminRoles";
 function App() {
     return (
         <>
@@ -33,7 +35,7 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
 
-                    <Route path="/APItest" element={<AddItemsTestApi />} />
+                    <Route path="/APItest" element={<APITest />} />
 
                     {/* panel de administrador */}
                     <Route element={<AdminRoute />}>
@@ -43,8 +45,16 @@ function App() {
                             path="/admin/productos"
                             element={<AdminProductos />}
                         />
+                        <Route
+                            path="/admin/usuarios"
+                            element={<AdminUsuarios />}
+                        />
+                        <Route path="/admin/roles" element={<AdminRoles />} />
                         <Route path="/admin/marcas" element={<AdminMarcas />} />
-                        <Route path="/admin/categorias" element={<AdminCategorias />} />
+                        <Route
+                            path="/admin/categorias"
+                            element={<AdminCategorias />}
+                        />
                     </Route>
                     </Route>
 

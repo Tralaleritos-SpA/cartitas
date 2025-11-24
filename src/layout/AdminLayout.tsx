@@ -17,6 +17,9 @@ function AdminLayout() {
                         <NavLink to="/admin/usuarios">Usuarios</NavLink>
                     </li>
                     <li>
+                        <NavLink to="/admin/roles">Roles</NavLink>
+                    </li>
+                    <li>
                         <NavLink className="sidebar-link" to="/admin/productos">
                             Productos
                         </NavLink>

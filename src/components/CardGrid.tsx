@@ -25,6 +25,7 @@ function CardGrid({ products, loading, error }: CardGridProps) {
             {products.map((product, index) => (
                 <Card
                     id={product.id}
+                    active={product.active}
                     category={product.category}
                     name={product.name}
                     brand={product.brand}

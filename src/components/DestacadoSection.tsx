@@ -23,6 +23,7 @@ function DestacadoSection({ products }: { products: Product[] }) {
                     {products.map((product, index) => (
                         <ProductoDestacado
                             id={product.id}
+                            active={product.active}
                             name={product.name}
                             brand={product.brand}
                             stock={product.stock}
