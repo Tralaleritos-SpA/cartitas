@@ -15,6 +15,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminProductos from "./pages/AdminProductos";
 import AdminMarcas from "./pages/AdminMarcas";
 import AdminCategorias from "./pages/AdminCategorias";
+import AdminRoute from "./components/ProteccionRutaAdmin";
 
 import Carrito from "./pages/Carrito";
 import APITest from "./pages/ApiTest";
@@ -37,6 +38,7 @@ function App() {
                     <Route path="/APItest" element={<APITest />} />
 
                     {/* panel de administrador */}
+                    <Route element={<AdminRoute />}>
                     <Route path="/admin" element={<AdminPanel />}>
                         <Route index element={<AdminDashboard />} />
                         <Route
@@ -53,6 +55,7 @@ function App() {
                             path="/admin/categorias"
                             element={<AdminCategorias />}
                         />
+                    </Route>
                     </Route>
 
                     {/*si no encuentra la pag manda 404*/}

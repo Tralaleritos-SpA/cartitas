@@ -1,21 +1,35 @@
-import JsonProducts from "../hooks/JsonProduct";
 import CarritoProduct from "./CarritoProduct";
+import type { Product } from "../types/productTypes";
 
-function CarritoProductList() {
-    const carritoProducts = JsonProducts;
+type CartProduct = Product & { quantity: number };
+
+interface CarritoProductListProps {
+    products: CartProduct[];
+    onIncrease: (id: string, currentQty: number) => void;
+    onDecrease: (id: string, currentQty: number) => void;
+}
+
+function CarritoProductList({
+    products,
+    onIncrease,
+    onDecrease,
+}: CarritoProductListProps) {
+    if (products.length === 0) {
+        return <p>Tu carrito está vacío.</p>;
+    }
 
     return (
         <>
-            {carritoProducts.map((product, index) => (
+            {products.map((product) => (
                 <CarritoProduct
-                    id={product.id}
-                    category={product.category}
-                    name={product.name}
-                    brand={product.brand}
-                    price={product.price}
-                    image={product.image}
-                    desc={product.desc}
-                    key={index}
+                    key={product.id}
+                    product={product}
+                    onIncrease={() =>
+                        onIncrease(product.id, product.quantity)
+                    }
+                    onDecrease={() =>
+                        onDecrease(product.id, product.quantity)
+                    }
                 />
             ))}
         </>
