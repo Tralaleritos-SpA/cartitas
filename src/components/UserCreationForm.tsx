@@ -167,7 +167,7 @@ function UserCreationForm() {
                 )}
                 {createdResource && (
                     <div className="alert alert-success mt-3">
-                        El producto se ha creado correctamente:
+                        El usuario se ha creado correctamente:{" "}
                         {createdResource?.name} (ID:
                         {createdResource?.id})
                     </div>
