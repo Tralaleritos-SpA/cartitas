@@ -21,13 +21,9 @@ function Carrito() {
         setCartItems(getCart());
     }, []);
 
-    const {
-        data: products,
-  
-    } = useFetch<Product[]>(fetchActiveProducts);
+    const { data: products } = useFetch<Product[]>(fetchActiveProducts);
 
     const cartProducts: CartProduct[] = useMemo(() => {
-
         if (!products) return [];
         return cartItems
             .map((item) => {
@@ -41,21 +37,13 @@ function Carrito() {
             .filter((p): p is CartProduct => p !== null);
     }, [cartItems, products]);
 
-
-
-
-
     const subtotal = useMemo(
-        () =>
-            cartProducts.reduce(
-                (acc, p) => acc + p.price * p.quantity,
-                0
-            ),
+        () => cartProducts.reduce((acc, p) => acc + p.price * p.quantity, 0),
         [cartProducts]
     );
-    
-    const descuentos = 0; 
-    const envio = cartProducts.length > 0 ? 5000 : 0; 
+
+    const descuentos = 0;
+    const envio = cartProducts.length > 0 ? 5000 : 0;
     const total = subtotal - descuentos + envio;
 
     const handleChangeQuantity = (id: string, newQty: number) => {
@@ -63,18 +51,11 @@ function Carrito() {
         setCartItems(updatedCart);
     };
 
-    const cartLength = cartProducts.reduce(
-        (acc, p) => acc + p.quantity,
-        0
-    )
-
+    const cartLength = cartProducts.reduce((acc, p) => acc + p.quantity, 0);
 
     return (
         <div className="container">
-            <Link to="/" className="link">
-                &#8617; Regresar a la tienda
-            </Link>
-            <div className="row pt-3">
+            <div className="row">
                 <div className="col-sm-12 col-md-6 col-lg-6 ">
                     <CarritoProductList
                         products={cartProducts}
@@ -90,20 +71,12 @@ function Carrito() {
                 <div className="col-sm-12 col-md-6 col-lg-6 box">
                     <h3>Resumen de compra</h3>
                     <p>Cantidad Productos: {cartLength}</p>
-                    <p>
-                        Subtotal: {clpFormatter.format(subtotal)}
-                    </p>
-                    <p>
-                        Descuentos: {clpFormatter.format(descuentos)}
-                    </p>
-                    <p>
-                        Envío: {clpFormatter.format(envio)}
-                    </p>
+                    <p>Subtotal: {clpFormatter.format(subtotal)}</p>
+                    <p>Descuentos: {clpFormatter.format(descuentos)}</p>
+                    <p>Envío: {clpFormatter.format(envio)}</p>
                     <hr />
                     <p>
-                        <strong>
-                            Total: {clpFormatter.format(total)}
-                        </strong>
+                        <strong>Total: {clpFormatter.format(total)}</strong>
                     </p>
                     <button className="button button-primary w-100 mt-2">
                         Continuar al Pago
