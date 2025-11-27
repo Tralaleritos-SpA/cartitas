@@ -20,8 +20,8 @@ function Home() {
             <Carousel />
             <div className="pt-3 pb-1 d-flex justify-content-between ">
                 <h4>Destacado</h4>
-                <Link to="/productos" className="text-dark">
-                    Ver Mas..
+                <Link to="/productos" className="link">
+                    Ver Más...
                 </Link>
             </div>
 
