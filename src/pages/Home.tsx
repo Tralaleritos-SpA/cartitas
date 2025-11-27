@@ -3,6 +3,7 @@ import TextMove from "../components/Textmove";
 import DestacadoSection from "../components/DestacadoSection";
 import { useFetch } from "../hooks/useFetch";
 import { fetchActiveProducts } from "../services/productService";
+import { Link } from "react-router-dom";
 
 function Home() {
     document.title = "Home";
@@ -17,11 +18,11 @@ function Home() {
         <div className="container">
             <TextMove />
             <Carousel />
-            <div className="d-flex justify-content-between ">
+            <div className="pt-3 pb-1 d-flex justify-content-between ">
                 <h4>Destacado</h4>
-                <a href="/Products" className="text-dark ">
-                    Ver Mas..
-                </a>
+                <Link to="/productos" className="link">
+                    Ver Más...
+                </Link>
             </div>
 
             {productLoading && <div>Cargando productos destacados...</div>}
