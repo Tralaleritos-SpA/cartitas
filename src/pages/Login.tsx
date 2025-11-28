@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import ValidateLogin from "../hooks/Login";
+import { loginUser } from "../services/userService";
+
+type Role = {
+  name: string;
+}|null;
 
 type StoredUser = {
-  id: number;
+  id: string;
   name: string;
-  role: string;
   email: string;
+  role: Role;
 };
 
 function Login() {
@@ -15,16 +19,17 @@ function Login() {
   const [message, setMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
 
+  // Si ya hay usuario logeado, redirige según su rol
   useEffect(() => {
     document.title = "Inicio Sesión";
-    //si hay un usuario en el localStorage redirigira segun el rol correspondiente
+
     try {
       const userStorage = localStorage.getItem("user");
       if (!userStorage) return;
 
       const user: StoredUser = JSON.parse(userStorage);
 
-      if (user?.role === "admin") {
+      if (user?.role?.name?.toLowerCase() === "admin") {
         window.location.href = "/admin";
       } else {
         window.location.href = "/";
@@ -35,36 +40,29 @@ function Login() {
     }
   }, []);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    try {
+      const loggedUser = await loginUser(email, password);
 
-
-    const user = ValidateLogin(email, password);
-
-    if (user) {
       setIsSuccess(true);
       setMessage("Inicio de sesión exitoso, redirigiendo...");
-      try {//guarda los datos en el localstorage sin la contraseña
-        const { password: _password, ...passwordSinContraseña } = user as any;
-        localStorage.setItem("user", JSON.stringify(passwordSinContraseña));
-      } catch (error) {
-        console.error("Error guardando usuario en localStorage", error);
-      }
+
       setTimeout(() => {
-        if (user.role == "admin") {
+        if (loggedUser?.role?.name?.toLowerCase() === "admin") {
           window.location.href = "/admin";
         } else {
           window.location.href = "/";
         }
       }, 1500);
 
-    } else {
+    } catch (error) {
+      console.error("Login error:", error);
       setIsSuccess(false);
       setMessage("Correo o contraseña incorrectos.");
     }
   };
-
 
   return (
     <div className="container">
@@ -75,17 +73,11 @@ function Login() {
       <div className="row d-flex justify-content-center">
         <div className="col-12 col-md-6 col-lg-4">
           <div className="box login-box">
-            <form
-              className="needs-validation"
-              noValidate
-              onSubmit={handleSubmit}
-            >
+            <form className="needs-validation" noValidate onSubmit={handleSubmit}>
               <h3 className="text-center my-4">Iniciar Sesión</h3>
 
               <div className="mb-3">
-                <label className="form-label">
-                  Correo
-                </label>
+                <label className="form-label">Correo</label>
                 <input
                   type="text"
                   className="form-control"
@@ -94,13 +86,10 @@ function Login() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
-                <div className="invalid-feedback">Ingresa un correo válido.</div>
               </div>
 
               <div className="mb-3">
-                <label className="form-label">
-                  Contraseña
-                </label>
+                <label className="form-label">Contraseña</label>
                 <input
                   type="password"
                   className="form-control"
@@ -109,9 +98,6 @@ function Login() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
-                <div className="invalid-feedback">
-                  Ingresa tu contraseña.
-                </div>
               </div>
 
               {message && (
@@ -133,6 +119,5 @@ function Login() {
     </div>
   );
 }
-
 
 export default Login;
