@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import CarritoProductList from "../components/CarritoProductList";
 import { useFetch } from "../hooks/useFetch";
@@ -10,6 +9,7 @@ import {
     type CartItem,
 } from "../services/cartService";
 import { clpFormatter } from "../hooks/currencyFormat";
+import { Link } from "react-router-dom";
 
 type CartProduct = Product & { quantity: number };
 
@@ -78,9 +78,9 @@ function Carrito() {
                     <p>
                         <strong>Total: {clpFormatter.format(total)}</strong>
                     </p>
-                    <button className="button button-primary w-100 mt-2">
+                    <Link to="/direccion" className="button button-primary w-100 mt-2">
                         Continuar al Pago
-                    </button>
+                    </Link>
                 </div>
             </div>
         </div>

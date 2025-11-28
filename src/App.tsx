@@ -21,6 +21,7 @@ import Carrito from "./pages/Carrito";
 import APITest from "./pages/ApiTest";
 import AdminUsuarios from "./pages/AdminUsuarios";
 import AdminRoles from "./pages/AdminRoles";
+import DireccionEnvio from "./pages/DireccionEnvio";
 function App() {
     return (
         <>
@@ -34,6 +35,7 @@ function App() {
                     <Route path="/Carrito" element={<Carrito />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="/direccion" element={<DireccionEnvio />} />
 
                     <Route path="/APItest" element={<APITest />} />
 
