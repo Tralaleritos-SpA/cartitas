@@ -387,6 +387,73 @@ select:invalid {
     background: var(--border);
 }
 
+/* Range input primary styling (used by SearchBox .range-primary) */
+input[type="range"].range-primary {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    accent-color: var(--primary);
+}
+
+input[type="range"].range-primary:focus {
+    outline: none;
+}
+
+/* WebKit track */
+input[type="range"].range-primary::-webkit-slider-runnable-track {
+    height: 8px;
+    background: #ddd;
+    border-radius: 8px;
+}
+
+/* WebKit thumb */
+input[type="range"].range-primary::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--primary);
+    border: 2px solid #fff;
+    margin-top: -5px; /* center thumb on track */
+}
+
+/* Firefox: color the progress (filled portion) and keep track neutral */
+input[type="range"].range-primary::-moz-range-track {
+    height: 8px;
+    background: #ddd;
+    border-radius: 8px;
+}
+
+input[type="range"].range-primary::-moz-range-progress {
+    background: var(--primary);
+    height: 8px;
+    border-radius: 8px;
+}
+
+input[type="range"].range-primary::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--primary);
+    border: 2px solid #fff;
+}
+
+/* IE/Edge */
+input[type="range"].range-primary::-ms-track {
+    height: 8px;
+    background: transparent;
+    border-radius: 8px;
+    color: transparent;
+}
+
+input[type="range"].range-primary::-ms-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--primary);
+    border: 2px solid #fff;
+}
+
 .data-table {
     width: 100%;
     border-collapse: separate;
