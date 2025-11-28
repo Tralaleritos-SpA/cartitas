@@ -15,3 +15,12 @@ export interface Role {
     active: boolean;
     name: string;
 }
+
+export type StoredUser = {
+    id: number;
+    name: string;
+    last_name: string;
+    email: string;
+    role: Role;
+    isDuoc: boolean;
+};

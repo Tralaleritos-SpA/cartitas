@@ -1,4 +1,4 @@
-import type { User } from "../types/UserTypes";
+import type { StoredUser, User } from "../types/UserTypes";
 
 const apiURL = "http://localhost:6969/api/v1/users";
 
@@ -80,5 +80,34 @@ export async function deleteUser(roleId: string): Promise<void> {
         const errorMessage =
             error instanceof Error ? error.message : String(error);
         throw new Error("API Error in deleteUser: " + errorMessage);
+    }
+}
+
+export async function loginUser(
+    email: string,
+    password: string
+): Promise<StoredUser> {
+    try {
+        const response = await fetch(apiURL + "/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to login user. Status: ${response.status}`);
+        }
+
+        const data: StoredUser = await response.json();
+
+        localStorage.setItem("user", JSON.stringify(data));
+
+        return data;
+    } catch (error) {
+        const errorMessage =
+            error instanceof Error ? error.message : String(error);
+        throw new Error("API Error in loginUser: " + errorMessage);
     }
 }
