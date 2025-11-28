@@ -6,7 +6,7 @@ export interface User {
     email: string;
     password: string;
     role: Role;
-    isDuoc: boolean;
+    duoc: boolean;
     phoneNumber: string | null;
 }
 
