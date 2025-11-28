@@ -1,6 +1,45 @@
-import JsonProducts from "../hooks/JsonProduct";
+import { useEffect, useState } from "react";
+import { fetchActiveProducts } from "../services/productService";
+import type { Product } from "../types/productTypes";
+
+function pickRandom<T>(arr: T[], n: number) {
+    const copy = arr.slice();
+    const result: T[] = [];
+    const len = Math.min(n, copy.length);
+    for (let i = 0; i < len; i++) {
+        const idx = Math.floor(Math.random() * copy.length);
+        result.push(copy.splice(idx, 1)[0]);
+    }
+    return result;
+}
 
 function Carousel() {
+    const [items, setItems] = useState<Product[] | null>(null);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        let mounted = true;
+
+        async function load() {
+            try {
+                const prods = await fetchActiveProducts();
+                if (!mounted) return;
+                const picked = pickRandom(prods, 3);
+                setItems(picked);
+            } catch (err: any) {
+                if (!mounted) return;
+                setError(err?.message ?? String(err));
+            }
+        }
+
+        load();
+
+        return () => {
+            mounted = false;
+        };
+    }, []);
+
+    // fallback: render nothing or an error message while loading
     return (
         <div
             id="carouselExampleFade"
@@ -9,24 +48,50 @@ function Carousel() {
             data-bs-interval="3000"
         >
             <div className="carousel-inner ">
-                {JsonProducts.slice(0, 3).map((product, index) => (
-                    <div
-                        key={product.id}
-                        className={`carousel-item ${
-                            index === 0 ? "active" : ""
-                        } contenedor-p`}
-                    >
-                        <img
-                            src={product.image}
-                            className="d-block img-p"
-                            alt={product.name}
-                        />
-                        <div className="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
-                            <h5>{product.name}</h5>
-                            <p>{product.desc}</p>
-                        </div>
+                {error ? (
+                    <div className="alert alert-danger">
+                        Error loading carousel: {error}
                     </div>
-                ))}
+                ) : items ? (
+                    items.map((product, index) => {
+                        const imgSrc =
+                            (product as any).image || product.img_url || "";
+                        return (
+                            <div
+                                key={product.id}
+                                className={`carousel-item ${
+                                    index === 0 ? "active" : ""
+                                } contenedor-p`}
+                            >
+                                <img
+                                    src={imgSrc}
+                                    className="d-block img-p"
+                                    alt={product.name}
+                                />
+                                <div className="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
+                                    <h5>{product.name}</h5>
+                                </div>
+                            </div>
+                        );
+                    })
+                ) : (
+                    // loading state: show empty placeholders (3 items)
+                    [0, 1, 2].map((_, index) => (
+                        <div
+                            key={index}
+                            className={`carousel-item ${
+                                index === 0 ? "active" : ""
+                            } contenedor-p`}
+                        >
+                            <div
+                                className="d-flex align-items-center justify-content-center"
+                                style={{ height: 200 }}
+                            >
+                                <div>Loading...</div>
+                            </div>
+                        </div>
+                    ))
+                )}
             </div>
 
             <button
