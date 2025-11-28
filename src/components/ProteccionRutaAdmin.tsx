@@ -5,12 +5,12 @@ function AdminRoute() {
   const { user } = useAuth();
 
   // si el usuario no esta logueado lo manda al home
-  if (!user) {
+  if (!user || !user.role) {
     return <Navigate to="/" replace />;
   }
 
   // si esta logueado pero no es admin lo manda al home
-  if (user.role !== "admin") {
+  if (user.role.name !== "admin") {
     return <Navigate to="/" replace />;
   }
 
