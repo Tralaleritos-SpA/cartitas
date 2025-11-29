@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import CarritoProductList from "../components/CarritoProductList";
 import { useFetch } from "../hooks/useFetch";
