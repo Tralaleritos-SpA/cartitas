@@ -7,7 +7,7 @@ import {
     getCart,
     setItemQuantity,
     type CartItem,
-} from "../services/cartService";
+} from "../hooks/cartService";
 import { clpFormatter } from "../hooks/currencyFormat";
 import { Link } from "react-router-dom";
 
