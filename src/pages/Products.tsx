@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 import CardGrid from "../components/CardGrid";
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback } from "react";
 import SearchBox from "../components/SearchBox";
 import { useFetch } from "../hooks/useFetch";
 import { fetchActiveBrands } from "../services/brandService";
@@ -15,6 +15,7 @@ type Filters = {
     minUnits?: number | null;
     minPlayers?: number | null;
     maxPlayers?: number | null;
+    sortOption?: "price-asc" | "price-desc" | "name-asc" | "name-desc";
 };
 
 function Products() {
@@ -40,6 +41,7 @@ function Products() {
         minUnits: null,
         minPlayers: null,
         maxPlayers: null,
+        sortOption: "name-asc",
     });
 
     // usa useMemo para updatear la lista solo cuando cambia su contenido
@@ -57,18 +59,8 @@ function Products() {
         }
     }, [productList, category]);
 
-    const [displayedProducts, setDisplayedProducts] =
-        useState<Product[]>(categorizedProducts);
-
-    const title = category ? category : "Productos";
-    document.title = title;
-
-    // apply filters to categorizedProducts
-    useEffect(() => {
-        if (!categorizedProducts) {
-            setDisplayedProducts([]);
-            return;
-        }
+    const displayedProducts = useMemo(() => {
+        if (!categorizedProducts) return [] as Product[];
 
         const results = categorizedProducts.filter((product: Product) => {
             // text search
@@ -120,8 +112,34 @@ function Products() {
             );
         });
 
-        setDisplayedProducts(results);
+        // apply sorting according to filters.sortOption
+        const sorted = [...results];
+        switch (filters.sortOption) {
+            case "price-asc":
+                sorted.sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
+                break;
+            case "price-desc":
+                sorted.sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
+                break;
+            case "name-asc":
+                sorted.sort((a, b) =>
+                    (a.name ?? "").localeCompare(b.name ?? "")
+                );
+                break;
+            case "name-desc":
+                sorted.sort((a, b) =>
+                    (b.name ?? "").localeCompare(a.name ?? "")
+                );
+                break;
+            default:
+                break;
+        }
+
+        return sorted;
     }, [filters, categorizedProducts]);
+
+    const title = category ? category : "Productos";
+    document.title = title;
 
     let isAccesorio = false;
     let isJuegoMesa = false;

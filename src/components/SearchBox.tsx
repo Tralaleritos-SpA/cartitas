@@ -10,6 +10,7 @@ type ProductFilter = {
     minUnits?: number | null; // for accesorios: select minimum units to show
     minPlayers?: number | null; // for juegos de mesa
     maxPlayers?: number | null;
+    sortOption?: "price-asc" | "price-desc" | "name-asc" | "name-desc";
 };
 
 interface AdvancedSearchProps {
@@ -41,10 +42,9 @@ function SearchBox({
         );
     }
 
-    // inputValue is the immediate input from the user; searchTerm is the debounced value
     const [searchTerm, setSearchTerm] = useState("");
     const [inputValue, setInputValue] = useState("");
-    // derive dynamic max price from available products
+
     const derivedMaxPrice = useMemo(() => {
         if (!products || products.length === 0) return 1000000;
         return Math.max(
@@ -64,6 +64,9 @@ function SearchBox({
     const [maxPrice, setMaxPrice] = useState<number>(
         derivedMaxPrice ?? 1000000
     );
+    const [sortOption, setSortOption] = useState<
+        "price-asc" | "price-desc" | "name-asc" | "name-desc"
+    >("name-asc");
     const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
     const [minUnits, setMinUnits] = useState<number | null>(null);
     const [minPlayers, setMinPlayers] = useState<number | null>(null);
@@ -117,6 +120,7 @@ function SearchBox({
             minUnits,
             minPlayers,
             maxPlayers,
+            sortOption,
         });
     }, [
         searchTerm,
@@ -126,6 +130,7 @@ function SearchBox({
         minUnits,
         minPlayers,
         maxPlayers,
+        sortOption,
         onFilterChange,
     ]);
 
@@ -189,6 +194,26 @@ function SearchBox({
                     ))}
                 </Form.Select>
             )}
+
+            <label className="form-label">Ordenar</label>
+            <Form.Select
+                value={sortOption}
+                onChange={(e) =>
+                    setSortOption(
+                        e.target.value as
+                            | "price-asc"
+                            | "price-desc"
+                            | "name-asc"
+                            | "name-desc"
+                    )
+                }
+                className="mb-2"
+            >
+                <option value="price-asc">Precio: menor a mayor</option>
+                <option value="price-desc">Precio: mayor a menor</option>
+                <option value="name-asc">Nombre: A - Z</option>
+                <option value="name-desc">Nombre: Z - A</option>
+            </Form.Select>
 
             {isAccesorio ? (
                 <div className="mb-2">
@@ -258,6 +283,7 @@ function SearchBox({
                         setMinUnits(null);
                         setMinPlayers(null);
                         setMaxPlayers(null);
+                        setSortOption("name-asc");
                     }}
                 >
                     Limpiar Filtros
