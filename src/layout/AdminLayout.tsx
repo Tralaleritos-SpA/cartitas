@@ -39,6 +39,14 @@ function AdminLayout() {
                     </li>
                     <li>
                         <NavLink
+                            className="sidebar-link"
+                            to="/admin/pedidos"
+                        >
+                            Pedidos
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink
                             to="/"
                             className="sidebar-link"
                             onClick={logout}
