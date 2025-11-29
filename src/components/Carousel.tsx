@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { fetchActiveProducts } from "../services/productService";
 import type { Product } from "../types/productTypes";
 
@@ -63,14 +64,19 @@ function Carousel() {
                                     index === 0 ? "active" : ""
                                 } contenedor-p`}
                             >
-                                <img
-                                    src={imgSrc}
-                                    className="d-block img-p"
-                                    alt={product.name}
-                                />
-                                <div className="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
-                                    <h5>{product.name}</h5>
-                                </div>
+                                <Link
+                                    to={`/Producto/${product.id}`}
+                                    className="d-block text-decoration-none text-reset"
+                                >
+                                    <img
+                                        src={imgSrc}
+                                        className="d-block img-p"
+                                        alt={product.name}
+                                    />
+                                    <div className="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
+                                        <h5>{product.name}</h5>
+                                    </div>
+                                </Link>
                             </div>
                         );
                     })
