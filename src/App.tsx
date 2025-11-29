@@ -37,29 +37,35 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/direccion" element={<DireccionEnvio />} />
-                    <Route path="/Mipedidos" element={<MisPedidos />} />
+                    <Route path="/Mispedidos" element={<MisPedidos />} />
 
                     <Route path="/APItest" element={<APITest />} />
 
                     {/* panel de administrador */}
                     <Route element={<AdminRoute />}>
-                    <Route path="/admin" element={<AdminPanel />}>
-                        <Route index element={<AdminDashboard />} />
-                        <Route
-                            path="/admin/productos"
-                            element={<AdminProductos />}
-                        />
-                        <Route
-                            path="/admin/usuarios"
-                            element={<AdminUsuarios />}
-                        />
-                        <Route path="/admin/roles" element={<AdminRoles />} />
-                        <Route path="/admin/marcas" element={<AdminMarcas />} />
-                        <Route
-                            path="/admin/categorias"
-                            element={<AdminCategorias />}
-                        />
-                    </Route>
+                        <Route path="/admin" element={<AdminPanel />}>
+                            <Route index element={<AdminDashboard />} />
+                            <Route
+                                path="/admin/productos"
+                                element={<AdminProductos />}
+                            />
+                            <Route
+                                path="/admin/usuarios"
+                                element={<AdminUsuarios />}
+                            />
+                            <Route
+                                path="/admin/roles"
+                                element={<AdminRoles />}
+                            />
+                            <Route
+                                path="/admin/marcas"
+                                element={<AdminMarcas />}
+                            />
+                            <Route
+                                path="/admin/categorias"
+                                element={<AdminCategorias />}
+                            />
+                        </Route>
                     </Route>
 
                     {/*si no encuentra la pag manda 404*/}
