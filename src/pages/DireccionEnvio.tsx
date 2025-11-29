@@ -11,8 +11,7 @@ import { useFetch } from "../hooks/useFetch";
 import { fetchActiveProducts } from "../services/productService";
 import type { Product } from "../types/productTypes";
 import { useNavigate } from "react-router-dom";
-import { DISCOUNT_RATE, SHIPPING_COST } from "../config/constants";
-import SimpleModal from "../components/SimpleModal";
+import { useModal } from "../hooks/useModal";
 
 // ... (Definición de tipos ShippingAddressState, etc.) ...
 
@@ -28,28 +27,7 @@ function Checkoutdireccion() {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const navigate = useNavigate();
-    const [modalOpen, setModalOpen] = useState(false);
-    const [modalTitle, setModalTitle] = useState("");
-    const [modalMessage, setModalMessage] = useState("");
-    const [modalOnClose, setModalOnClose] = useState<(() => void) | null>(null);
-
-    const openModal = (
-        title: string,
-        message: string,
-        onClose: (() => void) | null
-    ) => {
-        setModalTitle(title);
-        setModalMessage(message);
-        setModalOnClose(() => onClose);
-        setModalOpen(true);
-    };
-
-    const closeModal = () => {
-        setModalOpen(false);
-        const cb = modalOnClose;
-        setModalOnClose(null);
-        if (cb) cb();
-    };
+    const { Modal, openModal } = useModal();
 
     // fetch active products to validate cart items before submitting an order
     const { data: products } = useFetch<Product[]>(fetchActiveProducts);
@@ -150,24 +128,6 @@ function Checkoutdireccion() {
         // Re-read cart after possible client-side cleanup/adjustments
         const finalCart: CartItem[] = getCart();
 
-        // Compute subtotal and discount to send to the server so the order
-        // reflects the same totals shown in the cart page. Use centralized constant.
-        const activeProducts = products ?? [];
-        const subtotal = finalCart.reduce((acc, item) => {
-            const prod = activeProducts.find((p) => p.id === item.id);
-            if (!prod) return acc;
-            return acc + prod.price * item.quantity;
-        }, 0);
-
-        const isDuocUser = !!(
-            user &&
-            ((user as any).isDuoc === true || (user as any).duoc === true)
-        );
-
-        const descuentos = isDuocUser
-            ? Math.round(subtotal * DISCOUNT_RATE)
-            : 0;
-
         const shippingData = {
             fullName: NombreCompleto,
             phone: phone,
@@ -180,12 +140,8 @@ function Checkoutdireccion() {
 
         setIsSubmitting(true);
         try {
-            // Pasamos user.id (number) directamente
-            await createOrder(cartItems, user.id, shippingData);
-
-            alert(
-                "¡Compra finalizada con éxito! Puedes ver los detalles en 'Mis Pedidos'."
-            );
+            // Create the order using the server-side calculation (server expects items + shipping/user info)
+            await createOrder(finalCart, user.id, shippingData);
 
             openModal(
                 "Compra finalizada",
@@ -292,12 +248,7 @@ function Checkoutdireccion() {
                 </button>
             </form>
 
-            <SimpleModal
-                show={modalOpen}
-                title={modalTitle}
-                message={modalMessage}
-                onClose={closeModal}
-            />
+            <Modal />
         </div>
     );
 }

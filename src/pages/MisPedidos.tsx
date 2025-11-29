@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useModal } from "../hooks/useModal";
 import { type StoredUser } from "../types/UserTypes";
 import { useOrders } from "../hooks/userOrders";
 import { useOrderDetails } from "../hooks/userOrderDetails";
@@ -12,12 +13,17 @@ function MisPedidos() {
     const { orders, loading, error } = useOrders(userId);
     const { cache, load, loadingIds } = useOrderDetails();
     const [openOrderId, setOpenOrderId] = useState<string | null>(null);
+    const { Modal, openModal } = useModal();
 
     useEffect(() => {
         const userStorage = localStorage.getItem("user");
         if (!userStorage) {
-            alert("Debes iniciar sesión para ver tus pedidos.");
-            navigate("/login");
+            // show modal and navigate on close
+            openModal(
+                "Inicio de sesión requerido",
+                "Debes iniciar sesión para ver tus pedidos.",
+                () => navigate("/login")
+            );
             return;
         }
         try {
@@ -41,11 +47,16 @@ function MisPedidos() {
             try {
                 await load(orderId);
             } catch {
-                alert("No se pudieron cargar los detalles del pedido.");
-                setOpenOrderId(null);
+                openModal(
+                    "Error",
+                    "No se pudieron cargar los detalles del pedido.",
+                    () => setOpenOrderId(null)
+                );
             }
         }
     };
+
+    // modal handled by useModal
 
     if (loading)
         return (
@@ -109,6 +120,7 @@ function MisPedidos() {
                     ))}
                 </tbody>
             </table>
+            <Modal />
         </div>
     );
 }
