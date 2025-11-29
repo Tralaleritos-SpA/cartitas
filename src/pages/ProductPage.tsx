@@ -3,7 +3,7 @@ import { useFetch } from "../hooks/useFetch";
 import { fetchProductById } from "../services/productService";
 import { useCallback } from "react";
 import { clpFormatter } from "../hooks/currencyFormat";
-import { addToCart } from "../services/cartService";
+import { addToCart } from "../hooks/cartService";
 
 function ProductPage() {
     const { id } = useParams();

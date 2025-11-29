@@ -3,13 +3,10 @@ import CarritoProductList from "../components/CarritoProductList";
 import { useFetch } from "../hooks/useFetch";
 import { fetchActiveProducts } from "../services/productService";
 import type { Product } from "../types/productTypes";
-import {
-    getCart,
-    setItemQuantity,
-    type CartItem,
-} from "../services/cartService";
+import { getCart, setItemQuantity, type CartItem } from "../hooks/cartService";
 import { useAuth } from "../hooks/userAutenticacion";
 import { clpFormatter } from "../hooks/currencyFormat";
+import { Link } from "react-router-dom";
 
 type CartProduct = Product & { quantity: number };
 
@@ -88,9 +85,12 @@ function Carrito() {
                     <p>
                         <strong>Total: {clpFormatter.format(total)}</strong>
                     </p>
-                    <button className="button button-primary w-100 mt-2">
+                    <Link
+                        to="/direccion"
+                        className="button button-primary w-100 mt-2"
+                    >
                         Continuar al Pago
-                    </button>
+                    </Link>
                 </div>
             </div>
         </div>
