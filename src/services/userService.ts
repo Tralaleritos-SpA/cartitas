@@ -38,19 +38,19 @@ export async function fetchActiveUsers(): Promise<User[]> {
     }
 }
 
-export async function createUser(roleName: { name: string }): Promise<User> {
+export async function createUser(userName: { name: string }): Promise<User> {
     try {
         const response = await fetch(apiURL, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(roleName),
+            body: JSON.stringify(userName),
         });
 
         if (!response.ok) {
             throw new Error(
-                `Failed to create role. Status: ${response.status}`
+                `Failed to create user. Status: ${response.status}`
             );
         }
 
@@ -63,15 +63,15 @@ export async function createUser(roleName: { name: string }): Promise<User> {
     }
 }
 
-export async function deleteUser(roleId: string): Promise<void> {
+export async function deleteUser(userId: string): Promise<void> {
     try {
-        const response = await fetch(apiURL + "/" + roleId, {
+        const response = await fetch(apiURL + "/" + userId, {
             method: "DELETE",
         });
 
         if (!response.ok) {
             throw new Error(
-                `Failed to delete role. Status: ${response.status}`
+                `Failed to delete user. Status: ${response.status}`
             );
         }
 

@@ -13,7 +13,7 @@ interface UserPayload {
     email: string;
     password: string;
     role: Role | null;
-    isDuoc: boolean;
+    duoc: boolean;
     phoneNumber: string | null;
 }
 
@@ -41,6 +41,8 @@ function UserCreationForm() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        const isUserDuoc = isDuoc(userEmail.trim());
+
         const selectedRole =
             dataRole?.find((role) => role.id === userRoleId) ?? null;
 
@@ -50,10 +52,10 @@ function UserCreationForm() {
             email: userEmail.trim(),
             password: userPassword.trim(),
             role: selectedRole,
-            isDuoc: isDuoc(userEmail.trim()),
+            duoc: isUserDuoc,
             phoneNumber: userPhoneNumber,
         });
-        console.log(isDuoc(userEmail.trim()));
+
         setUserName("");
         setUserLastName("");
         setUserEmail("");

@@ -3,15 +3,14 @@ import CarritoProductList from "../components/CarritoProductList";
 import { useFetch } from "../hooks/useFetch";
 import { fetchActiveProducts } from "../services/productService";
 import type { Product } from "../types/productTypes";
-import {
-    getCart,
-    setItemQuantity,
-    type CartItem,
-} from "../hooks/cartService";
+import { getCart, setItemQuantity, type CartItem } from "../hooks/cartService";
+import { useAuth } from "../hooks/userAutenticacion";
 import { clpFormatter } from "../hooks/currencyFormat";
 import { Link } from "react-router-dom";
 
 type CartProduct = Product & { quantity: number };
+
+const DISCOUNT = 0.2;
 
 function Carrito() {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -42,7 +41,15 @@ function Carrito() {
         [cartProducts]
     );
 
-    const descuentos = 0;
+    // Apply discount when the current user has the duoc property
+    const { user: storedUser } = useAuth();
+    const isDuocUser = !!(
+        storedUser &&
+        ((storedUser as any).isDuoc === true ||
+            (storedUser as any).duoc === true)
+    );
+
+    const descuentos = isDuocUser ? Math.round(subtotal * DISCOUNT) : 0;
     const envio = cartProducts.length > 0 ? 5000 : 0;
     const total = subtotal - descuentos + envio;
 
@@ -78,7 +85,10 @@ function Carrito() {
                     <p>
                         <strong>Total: {clpFormatter.format(total)}</strong>
                     </p>
-                    <Link to="/direccion" className="button button-primary w-100 mt-2">
+                    <Link
+                        to="/direccion"
+                        className="button button-primary w-100 mt-2"
+                    >
                         Continuar al Pago
                     </Link>
                 </div>

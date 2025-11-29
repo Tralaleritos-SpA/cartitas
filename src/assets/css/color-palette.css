@@ -387,6 +387,39 @@ select:invalid {
     background: var(--border);
 }
 
+/* Carousel control buttons: use theme primary color for the circular background */
+.carousel-control-prev-icon,
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    /* remove circular background; show only the arrow glyph colored with --primary */
+    background-image: none !important;
+    background-color: transparent !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    opacity: 1 !important;
+}
+
+.carousel-control-prev-icon::before,
+.carousel-control-next-icon::before {
+    content: "";
+    display: block;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--primary);
+}
+
+.carousel-control-prev-icon::before {
+    content: "‹";
+}
+
+.carousel-control-next-icon::before {
+    content: "›";
+}
 .data-table {
     width: 100%;
     border-collapse: separate;
@@ -446,7 +479,8 @@ select:invalid {
     /* Ajusta la imagen para cubrir el espacio sin distorsionarse */
     object-position: center;
     /* Centra la imagen */
-    background-color: #000000;
+    /* image background: switch from black to white for carousel images */
+    background-color: #ffffff;
     border-radius: 20px;
     margin: 15px;
 }
