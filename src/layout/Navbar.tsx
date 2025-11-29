@@ -132,7 +132,7 @@ function Navbar() {
                             {user ? (
                                 <>
                                     <Dropdown.Item
-                                        href="/Mipedidos"
+                                        href="/Mispedidos"
                                         onClick={toggleMenu}
                                     >
                                         Mis pedidos
