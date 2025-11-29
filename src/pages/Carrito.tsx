@@ -8,9 +8,12 @@ import {
     setItemQuantity,
     type CartItem,
 } from "../services/cartService";
+import { useAuth } from "../hooks/userAutenticacion";
 import { clpFormatter } from "../hooks/currencyFormat";
 
 type CartProduct = Product & { quantity: number };
+
+const DISCOUNT = 0.2;
 
 function Carrito() {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -41,7 +44,15 @@ function Carrito() {
         [cartProducts]
     );
 
-    const descuentos = 0;
+    // Apply discount when the current user has the duoc property
+    const { user: storedUser } = useAuth();
+    const isDuocUser = !!(
+        storedUser &&
+        ((storedUser as any).isDuoc === true ||
+            (storedUser as any).duoc === true)
+    );
+
+    const descuentos = isDuocUser ? Math.round(subtotal * DISCOUNT) : 0;
     const envio = cartProducts.length > 0 ? 5000 : 0;
     const total = subtotal - descuentos + envio;
 
