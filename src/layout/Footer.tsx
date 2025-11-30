@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import {
     INSTAGRAM_LINK,
     SUPPORT_LINK,
@@ -37,11 +36,6 @@ function Footer() {
                         >
                             Soporte
                         </a>
-                    </li>
-                    <li className="list-inline-item">
-                        <Link to="admin" className="footer-link">
-                            Admin
-                        </Link>
                     </li>
                 </ul>
             </div>
