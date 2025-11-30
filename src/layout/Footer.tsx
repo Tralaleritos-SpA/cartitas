@@ -1,4 +1,8 @@
-import { Link } from "react-router-dom";
+import {
+    INSTAGRAM_LINK,
+    SUPPORT_LINK,
+    TWITTER_LINK,
+} from "../config/constants";
 
 function Footer() {
     return (
@@ -7,29 +11,31 @@ function Footer() {
                 <p className="mb-1">&copy; 2025 LevelUp</p>
                 <ul className="list-inline mb-0">
                     <li className="list-inline-item">
-                        <a href="#" className="footer-link">
+                        <a
+                            href={INSTAGRAM_LINK}
+                            target="_blank"
+                            className="footer-link"
+                        >
                             Instagram
                         </a>
                     </li>
                     <li className="list-inline-item">
-                        <a href="#" className="footer-link">
+                        <a
+                            href={TWITTER_LINK}
+                            target="_blank"
+                            className="footer-link"
+                        >
                             Twitter
                         </a>
                     </li>
                     <li className="list-inline-item">
-                        <a href="#" className="footer-link">
-                            Support
+                        <a
+                            href={SUPPORT_LINK}
+                            target="_blank"
+                            className="footer-link"
+                        >
+                            Soporte
                         </a>
-                    </li>
-                    <li className="list-inline-item">
-                        <Link to="ApiTest" className="footer-link">
-                            API
-                        </Link>
-                    </li>
-                    <li className="list-inline-item">
-                        <Link to="admin" className="footer-link">
-                            Admin
-                        </Link>
                     </li>
                 </ul>
             </div>
