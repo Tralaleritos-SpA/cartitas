@@ -1,6 +1,10 @@
 // src/services/orderService.ts
 
+// Asegúrate de que OrderTypes.ts contenga Order, OrderItem, OrderSummary
+import type { Order, OrderSummary } from "../types/OrderTypes";
 import type { CartItem } from "../hooks/cartService";
+
+// --- DTOs Locales (Input para el Backend) ---
 import { SHIPPING_COST } from "../config/constants";
 
 type CartItemDTO = {
@@ -29,41 +33,32 @@ type ShippingData = {
     country: string;
 };
 
-export interface OrderSummary {
-    id: string;
-    total_price: number;
-    created_at: Date;
-    status: string;
-    shippingCity: string;
-}
-
-export interface OrderItemDetails {
-    id: string;
-    quantity: number;
-    unitPrice: number;
-    subTotal: number;
-    product: {
-        id: string;
-        name: string;
-    };
-}
-
-export interface OrderDetails extends OrderSummary {
-    fullName: string;
-    phone: string;
-    shippingAddress: string;
-    shippingZip: string;
-    shippingFee: number;
-    items: OrderItemDetails[];
-}
+// **NOTA IMPORTANTE:**
+// Las interfaces OrderSummary y OrderItemDetails que definiste en el borrador
+// deben estar ubicadas en tu archivo de tipos (ej: ../types/OrderTypes.ts)
+// si quieres que este archivo se mantenga limpio.
+// Las mantendré aquí solo por referencia si no las has movido todavía:
+/*
+export interface OrderSummary { ... } 
+export interface OrderItemDetails { ... } 
+*/
 
 const apiURL = "http://localhost:6969/api/v1/orders";
 
+// ----------------------------------------------------------------------
+// --- FUNCIONES DE ACCESO A LA API ---
+// ----------------------------------------------------------------------
+
+/**
+ * Envía la solicitud de creación de pedido (POST).
+ */
 export async function createOrder(
     cartItems: CartItem[],
     userId: string,
     shippingData: ShippingData
-): Promise<OrderDetails> {
+): Promise<Order> {
+    // Usa el tipo Order completo
+
     const itemsDTO: CartItemDTO[] = cartItems.map((item) => ({
         productId: item.id,
         quantity: item.quantity,
@@ -105,7 +100,7 @@ export async function createOrder(
                 }
             }
 
-            return data as OrderDetails;
+            return data as Order;
         }
 
         // For error responses, try to read JSON first; if parsing fails, read as text.
@@ -142,7 +137,12 @@ export async function createOrder(
     }
 }
 
-export async function fetchOrderById(orderId: string): Promise<OrderDetails> {
+/**
+ * Busca una orden específica por su ID (GET /{id}).
+ * Retorna el pedido completo (Order).
+ */
+export async function fetchOrderById(orderId: string): Promise<Order> {
+    // Usa el tipo Order completo
     try {
         const response = await fetch(`${apiURL}/${orderId}`);
 
@@ -160,7 +160,7 @@ export async function fetchOrderById(orderId: string): Promise<OrderDetails> {
                 orderData.created_at = new Date(orderData.createdAt);
             }
         }
-        return orderData as OrderDetails;
+        return orderData as Order;
     } catch (error) {
         const errorMessage =
             error instanceof Error ? error.message : String(error);
@@ -203,5 +203,68 @@ export async function fetchAllOrdersByUserId(
         throw new Error(
             "API Error in orderService.fetchAllOrdersByUserId: " + errorMessage
         );
+    }
+}
+
+/**
+ * Actualiza el estado del pedido (PUT /{id}/status). (Para el Admin)
+ * Retorna el pedido actualizado (Order).
+ */
+export async function updateOrderStatus(
+    orderId: string,
+    newStatus: string
+): Promise<Order> {
+    // Usa el tipo Order completo
+    try {
+        const response = await fetch(`${apiURL}/${orderId}/status`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ status: newStatus }),
+        });
+
+        if (!response.ok) {
+            const responseData = await response.json();
+            const errorMsg =
+                typeof responseData === "string"
+                    ? responseData
+                    : "Error desconocido al actualizar el estado del pedido.";
+            throw new Error(
+                `Failed to update order status. Status: ${response.status}: ${errorMsg}`
+            );
+        }
+
+        const updatedOrder: Order = await response.json();
+        return updatedOrder;
+    } catch (error) {
+        const e = error as Error;
+        const errorMessage = e.message || String(error);
+        throw new Error("API Error in updateOrderStatus: " + errorMessage);
+    }
+}
+
+// En src/services/orderService.ts
+
+export async function fetchAllOrders(): Promise<OrderSummary[]> {
+    try {
+        const response = await fetch(apiURL); // apiURL es "http://localhost:6969/api/v1/orders"
+
+        if (!response.ok) {
+            // Manejo de errores HTTP (404, 500, etc.)
+            throw new Error(
+                `Failed to fetch all orders. Status: ${response.status}`
+            );
+        }
+
+        const data = await response.json();
+
+        // Asumimos que la respuesta es un array de pedidos que se mapea a OrderSummary[]
+        return data as OrderSummary[];
+    } catch (error) {
+        // Manejo de errores de red o errores lanzados en el bloque try
+        const e = error as Error;
+        const errorMessage = e.message || String(error);
+        throw new Error("API Error in fetchAllOrders: " + errorMessage);
     }
 }

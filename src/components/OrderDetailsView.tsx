@@ -1,8 +1,8 @@
 
-import type { OrderDetails } from "../services/orderService";
+import type { Order } from "../types/OrderTypes";
 import { clpFormatter } from "../hooks/currencyFormat";
 
-export default function OrderDetailsView({ details }: { details: OrderDetails }) {
+export default function OrderDetailsView({ details }: { details: Order }) {
   const productSubtotal = details.total_price - details.shippingFee;
 
   return (

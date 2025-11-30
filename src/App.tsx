@@ -23,6 +23,7 @@ import AdminUsuarios from "./pages/AdminUsuarios";
 import AdminRoles from "./pages/AdminRoles";
 import DireccionEnvio from "./pages/DireccionEnvio";
 import MisPedidos from "./pages/MisPedidos";
+import AdminPedidos from "./pages/AdminPedidos";
 function App() {
     return (
         <>
@@ -64,6 +65,10 @@ function App() {
                             <Route
                                 path="/admin/categorias"
                                 element={<AdminCategorias />}
+                            />
+                            <Route
+                                path="/admin/pedidos"
+                                element={<AdminPedidos />}
                             />
                         </Route>
                     </Route>
