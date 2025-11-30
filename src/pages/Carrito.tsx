@@ -4,13 +4,15 @@ import { useFetch } from "../hooks/useFetch";
 import { fetchActiveProducts } from "../services/productService";
 import type { Product } from "../types/productTypes";
 import { getCart, setItemQuantity, type CartItem } from "../hooks/cartService";
+import { DISCOUNT_RATE, SHIPPING_COST } from "../config/constants";
 import { useAuth } from "../hooks/userAutenticacion";
 import { clpFormatter } from "../hooks/currencyFormat";
 import { Link } from "react-router-dom";
 
 type CartProduct = Product & { quantity: number };
 
-const DISCOUNT = 0.2;
+// Use centralized constants
+const DISCOUNT = DISCOUNT_RATE;
 
 function Carrito() {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -50,7 +52,7 @@ function Carrito() {
     );
 
     const descuentos = isDuocUser ? Math.round(subtotal * DISCOUNT) : 0;
-    const envio = cartProducts.length > 0 ? 5000 : 0;
+    const envio = cartProducts.length > 0 ? SHIPPING_COST : 0;
     const total = subtotal - descuentos + envio;
 
     const handleChangeQuantity = (id: string, newQty: number) => {

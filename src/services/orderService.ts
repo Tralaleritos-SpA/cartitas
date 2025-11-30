@@ -1,15 +1,15 @@
 // src/services/orderService.ts
 
 import type { CartItem } from "../hooks/cartService";
-
+import { SHIPPING_COST } from "../config/constants";
 
 type CartItemDTO = {
-    productId: string; 
+    productId: string;
     quantity: number;
 };
 
 type OrderRequestDTO = {
-    userId: string; 
+    userId: string;
     items: CartItemDTO[];
     fullName: string;
     phone: string;
@@ -25,15 +25,14 @@ type ShippingData = {
     address: string;
     city: string;
     zip: string;
-    region: string; 
-    country: string; 
+    region: string;
+    country: string;
 };
-
 
 export interface OrderSummary {
     id: string;
     total_price: number;
-    created_at: string; 
+    created_at: Date;
     status: string;
     shippingCity: string;
 }
@@ -43,48 +42,35 @@ export interface OrderItemDetails {
     quantity: number;
     unitPrice: number;
     subTotal: number;
-    product: { 
+    product: {
         id: string;
-        name: string; // Asumimos que la API devuelve al menos el nombre del producto
+        name: string;
     };
 }
 
-// Tipo para los detalles completos del pedido (usado en fetchOrderById)
 export interface OrderDetails extends OrderSummary {
-    // Campos heredados de OrderSummary: id, total_price, created_at, status, shippingCity
-    
-    // Campos adicionales de envío y contacto que el backend devuelve
     fullName: string;
     phone: string;
     shippingAddress: string;
     shippingZip: string;
     shippingFee: number;
-    
-    // Items del pedido
     items: OrderItemDetails[];
 }
 
-
 const apiURL = "http://localhost:6969/api/v1/orders";
 
-/**
- * Envía la solicitud de creación de pedido (POST).
- */
 export async function createOrder(
     cartItems: CartItem[],
-    userId: number, 
+    userId: string,
     shippingData: ShippingData
-): Promise<any> {
-    
+): Promise<OrderDetails> {
     const itemsDTO: CartItemDTO[] = cartItems.map((item) => ({
         productId: item.id,
         quantity: item.quantity,
     }));
 
-    const SHIPPING_COST = 5000;
-    
     const requestBody: OrderRequestDTO = {
-        userId: String(userId), // CONVERSIÓN a string para el Back-end
+        userId,
         items: itemsDTO,
         shippingFee: SHIPPING_COST,
         fullName: shippingData.fullName,
@@ -100,64 +86,122 @@ export async function createOrder(
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(requestBody),
         });
-        
-        const responseData = await response.json();
 
-        if (!response.ok) {
-            const errorMsg = typeof responseData === 'string' ? responseData : "Error desconocido al crear el pedido.";
-            throw new Error(`API Error Status ${response.status}: ${errorMsg}`);
+        if (response.ok) {
+            const data = await response.json().catch(() => null);
+            try {
+                console.debug(
+                    "orderService.createOrder - success response:",
+                    data
+                );
+            } catch {}
+
+            // Normalize created_at to Date. API may return created_at or createdAt.
+            if (data) {
+                if (typeof data.created_at === "string") {
+                    data.created_at = new Date(data.created_at);
+                } else if (typeof data.createdAt === "string") {
+                    data.created_at = new Date(data.createdAt);
+                }
+            }
+
+            return data as OrderDetails;
         }
 
-        return responseData; 
+        // For error responses, try to read JSON first; if parsing fails, read as text.
+        let errorBody: any = null;
+        try {
+            errorBody = await response.json();
+        } catch (e) {
+            try {
+                errorBody = await response.text();
+            } catch (e2) {
+                errorBody = null;
+            }
+        }
 
+        const errorMsg =
+            typeof errorBody === "string"
+                ? errorBody
+                : errorBody?.message ?? `HTTP ${response.status}`;
+
+        try {
+            console.debug("orderService.createOrder - error response:", {
+                status: response.status,
+                body: errorBody,
+            });
+        } catch {}
+
+        throw new Error(`API Error Status ${response.status}: ${errorMsg}`);
     } catch (error) {
-        const e = error as Error; 
-        const errorMessage = e.message || String(error); 
-        throw new Error("API Error in createOrder: " + errorMessage);
+        const errorMessage =
+            error instanceof Error ? error.message : String(error);
+        throw new Error(
+            "API Error in orderService.createOrder: " + errorMessage
+        );
     }
 }
 
-/**
- * Busca una orden específica por su ID (GET /{id}).
- * El tipo de retorno ahora es OrderDetails.
- */
 export async function fetchOrderById(orderId: string): Promise<OrderDetails> {
     try {
         const response = await fetch(`${apiURL}/${orderId}`);
-        
+
         if (!response.ok) {
-            throw new Error(`Failed to fetch order ${orderId}. Status: ${response.status}`);
+            throw new Error(
+                `Failed to fetch order ${orderId}. Status: ${response.status}`
+            );
         }
 
         const orderData = await response.json();
-        return orderData as OrderDetails; // Aseguramos el tipo
+        if (orderData) {
+            if (typeof orderData.created_at === "string") {
+                orderData.created_at = new Date(orderData.created_at);
+            } else if (typeof orderData.createdAt === "string") {
+                orderData.created_at = new Date(orderData.createdAt);
+            }
+        }
+        return orderData as OrderDetails;
     } catch (error) {
-        const e = error as Error; 
-        const errorMessage = e.message || String(error); 
-        throw new Error("API Error in fetchOrderById: " + errorMessage);
+        const errorMessage =
+            error instanceof Error ? error.message : String(error);
+        throw new Error(
+            "API Error in orderService.fetchOrderById: " + errorMessage
+        );
     }
 }
 
-
-/**
- * Obtiene todos los pedidos realizados por un usuario específico (GET /user/{userId}).
- * El tipo de retorno ahora es OrderSummary[].
- */
-export async function fetchAllOrdersByUserId(userId: number): Promise<OrderSummary[]> {
+export async function fetchAllOrdersByUserId(
+    userId: string
+): Promise<OrderSummary[]> {
     try {
-        // CONVERSIÓN a string para la URL
-        const response = await fetch(`${apiURL}/user/${String(userId)}`); 
+        const response = await fetch(`${apiURL}/user/${userId}`);
 
         if (!response.ok) {
-            throw new Error(`Failed to fetch orders for user ${userId}. Status: ${response.status}`);
+            throw new Error(
+                `Failed to fetch orders for user ${userId}. Status: ${response.status}`
+            );
         }
 
         const data = await response.json();
-        // Asumimos que la respuesta es un array de resúmenes de pedidos
-        return data as OrderSummary[];
+        if (Array.isArray(data)) {
+            const mapped = data.map((o: any) => ({
+                ...o,
+                created_at:
+                    typeof o.createdAt === "string"
+                        ? new Date(o.createdAt)
+                        : typeof o.created_at === "string"
+                        ? new Date(o.created_at)
+                        : o.createdAt ?? o.created_at,
+            })) as OrderSummary[];
+
+            return mapped;
+        }
+        return [];
     } catch (error) {
-        const e = error as Error; 
-        const errorMessage = e.message || String(error); 
-        throw new Error("API Error in fetchAllOrdersByUserId: " + errorMessage);
+        const errorMessage =
+            error instanceof Error ? error.message : String(error);
+        throw new Error(
+            "API Error in orderService.fetchAllOrdersByUserId: " + errorMessage
+        );
     }
 }
