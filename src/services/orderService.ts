@@ -32,7 +32,7 @@ type ShippingData = {
 export interface OrderSummary {
     id: string;
     total_price: number;
-    created_at: string;
+    created_at: Date;
     status: string;
     shippingCity: string;
 }
@@ -95,6 +95,16 @@ export async function createOrder(
                     data
                 );
             } catch {}
+
+            // Normalize created_at to Date. API may return created_at or createdAt.
+            if (data) {
+                if (typeof data.created_at === "string") {
+                    data.created_at = new Date(data.created_at);
+                } else if (typeof data.createdAt === "string") {
+                    data.created_at = new Date(data.createdAt);
+                }
+            }
+
             return data as OrderDetails;
         }
 
@@ -143,6 +153,13 @@ export async function fetchOrderById(orderId: string): Promise<OrderDetails> {
         }
 
         const orderData = await response.json();
+        if (orderData) {
+            if (typeof orderData.created_at === "string") {
+                orderData.created_at = new Date(orderData.created_at);
+            } else if (typeof orderData.createdAt === "string") {
+                orderData.created_at = new Date(orderData.createdAt);
+            }
+        }
         return orderData as OrderDetails;
     } catch (error) {
         const errorMessage =
@@ -166,7 +183,20 @@ export async function fetchAllOrdersByUserId(
         }
 
         const data = await response.json();
-        return data as OrderSummary[];
+        if (Array.isArray(data)) {
+            const mapped = data.map((o: any) => ({
+                ...o,
+                created_at:
+                    typeof o.createdAt === "string"
+                        ? new Date(o.createdAt)
+                        : typeof o.created_at === "string"
+                        ? new Date(o.created_at)
+                        : o.createdAt ?? o.created_at,
+            })) as OrderSummary[];
+
+            return mapped;
+        }
+        return [];
     } catch (error) {
         const errorMessage =
             error instanceof Error ? error.message : String(error);
