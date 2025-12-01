@@ -259,7 +259,21 @@ export async function fetchAllOrders(): Promise<OrderSummary[]> {
 
         const data = await response.json();
 
-        // Asumimos que la respuesta es un array de pedidos que se mapea a OrderSummary[]
+        // Normalize each order to have `created_at` for compatibility with components
+        if (Array.isArray(data)) {
+            const mapped = data.map((o: any) => ({
+                ...o,
+                created_at:
+                    typeof o.created_at === "string"
+                        ? o.created_at
+                        : typeof o.createdAt === "string"
+                        ? o.createdAt
+                        : o.createdAt ?? o.created_at,
+            })) as OrderSummary[];
+
+            return mapped;
+        }
+
         return data as OrderSummary[];
     } catch (error) {
         // Manejo de errores de red o errores lanzados en el bloque try
