@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "../hooks/userAutenticacion";
 
 function AdminLayout() {
@@ -6,6 +6,9 @@ function AdminLayout() {
     return (
         <div className="admin-layout">
             <aside className="sidebar">
+                <Link to="/" className="link admin-icon">
+                    LevelUp
+                </Link>
                 <h3 className="sidebar-title">Panel Admin</h3>
                 <ul className="nav-items" style={{ flexDirection: "column" }}>
                     <li>
@@ -38,10 +41,7 @@ function AdminLayout() {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink
-                            className="sidebar-link"
-                            to="/admin/pedidos"
-                        >
+                        <NavLink className="sidebar-link" to="/admin/pedidos">
                             Pedidos
                         </NavLink>
                     </li>
