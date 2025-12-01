@@ -15,6 +15,11 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminProductos from "./pages/AdminProductos";
 import AdminMarcas from "./pages/AdminMarcas";
 import AdminCategorias from "./pages/AdminCategorias";
+import AdminProductosList from "./pages/AdminProductosList";
+import AdminMarcasList from "./pages/AdminMarcasList";
+import AdminCategoriasList from "./pages/AdminCategoriasList";
+import AdminRolesList from "./pages/AdminRolesList";
+import AdminUsuariosList from "./pages/AdminUsuariosList";
 import AdminRoute from "./components/ProteccionRutaAdmin";
 
 import Carrito from "./pages/Carrito";
@@ -51,20 +56,40 @@ function App() {
                                 element={<AdminProductos />}
                             />
                             <Route
+                                path="/admin/productos/existentes"
+                                element={<AdminProductosList />}
+                            />
+                            <Route
                                 path="/admin/usuarios"
                                 element={<AdminUsuarios />}
+                            />
+                            <Route
+                                path="/admin/usuarios/existentes"
+                                element={<AdminUsuariosList />}
                             />
                             <Route
                                 path="/admin/roles"
                                 element={<AdminRoles />}
                             />
                             <Route
+                                path="/admin/roles/existentes"
+                                element={<AdminRolesList />}
+                            />
+                            <Route
                                 path="/admin/marcas"
                                 element={<AdminMarcas />}
                             />
                             <Route
+                                path="/admin/marcas/existentes"
+                                element={<AdminMarcasList />}
+                            />
+                            <Route
                                 path="/admin/categorias"
                                 element={<AdminCategorias />}
+                            />
+                            <Route
+                                path="/admin/categorias/existentes"
+                                element={<AdminCategoriasList />}
                             />
                             <Route
                                 path="/admin/pedidos"
