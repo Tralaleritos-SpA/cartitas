@@ -1,66 +1,62 @@
-import ValidateLogin from "../../src/hooks/Login";
-import { describe, expect, test } from "vitest";
+import { loginUser } from "../../src/services/userService";
+import { describe, expect, test, vi, beforeEach, afterEach } from "vitest";
 
-describe('Prueba pagina login', () => {
-
-    const users = [ {
-        "id": 1,
-        "name": "Matias Gonzalez",
-        "role": "user",
-        "email": "matiasgonazalez@gmail.com",
-        "password": "123456"
+describe("Prueba servicio loginUser", () => {
+  const users = [
+    {
+      id: 1,
+      name: "Matias Gonzalez",
+      role: "user",
+      email: "matiasgonazalez@gmail.com",
+      password: "123456",
     },
     {
-        "id": 2,
-        "name": "Admin",
-        "role": "admin",
-        "email": "admin@example.com",
-        "password": "123456"
+      id: 2,
+      name: "Admin",
+      role: "admin",
+      email: "admin@example.com",
+      password: "123456",
     },
     {
-        "id": 3,
-        "name": "Jane Doe",
-        "role": "user",
-        "email": "jane.doe@example.com",
-        "password": "jane123"
-    }]
+      id: 3,
+      name: "Jane Doe",
+      role: "user",
+      email: "jane.doe@example.com",
+      password: "jane123",
+    },
+  ];
 
-  test('debe devolver correcto si el usuario y contraseña  coinciden', () => {
+  let originalFetch: any;
 
-    const user = users[0]
+  beforeEach(() => {
+    originalFetch = globalThis.fetch;
+  });
 
-    const email = user.email
-    const password = user.password
+  afterEach(() => {
+    globalThis.fetch = originalFetch;
+    localStorage.clear();
+    vi.resetAllMocks();
+  });
 
-    const resultado=ValidateLogin(email,password)
+  test("debe resolver y guardar usuario cuando credenciales coinciden", async () => {
+    const user = users[0];
+    globalThis.fetch = vi.fn(() =>
+      Promise.resolve({ ok: true, json: () => Promise.resolve(user) } as any)
+    );
 
-    expect(resultado).toEqual(user)
+    const res = await loginUser(user.email, user.password);
+    expect(res).toEqual(user);
+    expect(localStorage.getItem("user")).toEqual(JSON.stringify(user));
+  });
 
+  test("debe rechazar cuando el servidor responde no-ok (credenciales inválidas)", async () => {
+    globalThis.fetch = vi.fn(() => Promise.resolve({ ok: false, status: 401 } as any));
 
-  })
+    await expect(loginUser("noexiste@example.com", "nop")).rejects.toThrow();
+  });
 
-  test('debe devolver false si  el email no coincide', () => {
-    const user= users[1]
-    const password=user.password
-    
-    const resultado =ValidateLogin("elenor@gmail.com", password)
-    
-    expect(resultado).toBe(false)
-  })
-
-  test('debe devolver false si  la contraseña no coincide', () => {
-    const user= users[2]
-    const email=user.email
-    
-    const resultado =ValidateLogin(email, "wrongpassword")
-    
-    expect(resultado).toBe(false)
-  })
-
-  test("tiene que devolver false si email o password están vacíos", () => {
-  const resultado = ValidateLogin("", "");
-  expect(resultado).toBe(false);
-  })
- 
-
-})
+  test("debe rechazar si email o password están vacíos", async () => {
+    globalThis.fetch = vi.fn(() => Promise.resolve({ ok: false, status: 400 } as any));
+    await expect(loginUser("", "")).rejects.toThrow();
+  });
+});

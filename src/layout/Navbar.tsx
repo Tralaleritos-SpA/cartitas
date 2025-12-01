@@ -1,65 +1,199 @@
 import { Dropdown } from "react-bootstrap";
-import Button from "../components/Button";
 import { Link } from "react-router-dom";
+import { useAuth } from "../hooks/userAutenticacion";
+import { useState } from "react";
 
 function Navbar() {
+    // 2. State for controlling the mobile menu's visibility
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const { user, logout } = useAuth();
+    const Primernombre = user?.name ? user.name.split(" ")[0] : null;
+
+    // 3. Toggle function
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
     return (
-        <span className="container navbar fixed-top">
-            <Link className="nav-icon" to="/">
+        <div className="container navbar fixed-top">
+            <Link
+                className="nav-icon"
+                to="/"
+                onClick={() => setIsMenuOpen(false)}
+            >
                 LevelUp
             </Link>
-            <ul className="nav-items">
+
+            {/* 4. Mobile Menu Toggle Button (Hamburger) */}
+            <button
+                className="menu-toggle"
+                onClick={toggleMenu}
+                aria-label="Toggle navigation"
+            >
+                {/* You'd typically use a SVG or an icon library here */}
+                {isMenuOpen ? (
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    >
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                ) : (
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    >
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                )}
+            </button>
+
+            {/* 5. Apply a class based on menu state */}
+            <ul className={`nav-items ${isMenuOpen ? "open" : ""}`}>
                 <li>
                     <Dropdown>
                         <Dropdown.Toggle
-                            className="custom-dropdown-toggle"
+                            className="custom-dropdown-toggle nav-link"
                             id="productDropdown"
                         >
                             Productos
                         </Dropdown.Toggle>
                         <Dropdown.Menu className="custom-dropdown-menu">
-                            <Dropdown.Item href="/Productos/TCG">
+                            <Dropdown.Item
+                                href="/Productos/TCG"
+                                onClick={toggleMenu}
+                            >
                                 Trading Card Games
                             </Dropdown.Item>
-                            <Dropdown.Item href="/Productos/Accesorios">
+                            <Dropdown.Item
+                                href="/Productos/Accesorios"
+                                onClick={toggleMenu}
+                            >
                                 Accesorios
                             </Dropdown.Item>
-                            <Dropdown.Item href="/Productos/Juegos De Mesa">
+                            <Dropdown.Item
+                                href="/Productos/Juegos De Mesa"
+                                onClick={toggleMenu}
+                            >
                                 Juegos de Mesa
                             </Dropdown.Item>
-                            <Dropdown.Item href="/Productos">
+                            <Dropdown.Item
+                                href="/Productos"
+                                onClick={toggleMenu}
+                            >
                                 Ver Todo
                             </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </li>
                 <li>
-                    <Button linkClass="nav-link" to="/Eventos">
+                    <Link
+                        className="nav-link"
+                        to="/Eventos"
+                        onClick={toggleMenu}
+                    >
                         Eventos
-                    </Button>
+                    </Link>
                 </li>
                 <li>
-                    <Button linkClass="nav-link" to="/Carrito">
+                    <Link
+                        className="nav-link"
+                        to="/Carrito"
+                        onClick={toggleMenu}
+                    >
                         Carrito
-                    </Button>
+                    </Link>
                 </li>
                 <li>
                     <Dropdown>
-                        <Dropdown.Toggle className="custom-dropdown-toggle">
-                            Mi Cuenta
+                        <Dropdown.Toggle className="custom-dropdown-toggle nav-link">
+                            {Primernombre
+                                ? `Hola, ${Primernombre}`
+                                : "Mi Cuenta"}
                         </Dropdown.Toggle>
+                        {/* render admin button only if user is logged in and has admin role */}
                         <Dropdown.Menu className="custom-dropdown-menu">
-                            <Dropdown.Item href="/login">
-                                Iniciar Sesion
-                            </Dropdown.Item>
-                            <Dropdown.Item href="/register">
-                                Registrarse
-                            </Dropdown.Item>
+                            {user ? (
+                                user.role && user.role.name == "admin" ? (
+                                    <>
+                                        <Dropdown.Item
+                                            href="/Mispedidos"
+                                            onClick={toggleMenu}
+                                        >
+                                            Mis pedidos
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                            href="/admin"
+                                            onClick={toggleMenu}
+                                        >
+                                            Panel Administracion
+                                        </Dropdown.Item>
+                                        <Dropdown.Divider />
+                                        <Dropdown.Item
+                                            onClick={() => {
+                                                logout();
+                                                toggleMenu();
+                                            }}
+                                        >
+                                            Cerrar sesión
+                                        </Dropdown.Item>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Dropdown.Item
+                                            href="/Mispedidos"
+                                            onClick={toggleMenu}
+                                        >
+                                            Mis pedidos
+                                        </Dropdown.Item>
+                                        <Dropdown.Divider />
+                                        <Dropdown.Item
+                                            onClick={() => {
+                                                logout();
+                                                toggleMenu();
+                                            }}
+                                        >
+                                            Cerrar sesión
+                                        </Dropdown.Item>
+                                    </>
+                                )
+                            ) : (
+                                <>
+                                    <Dropdown.Item
+                                        href="/login"
+                                        onClick={toggleMenu}
+                                    >
+                                        Iniciar sesión
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                        href="/register"
+                                        onClick={toggleMenu}
+                                    >
+                                        Registrarse
+                                    </Dropdown.Item>
+                                </>
+                            )}
                         </Dropdown.Menu>
                     </Dropdown>
                 </li>
             </ul>
-        </span>
+        </div>
     );
 }
 export default Navbar;

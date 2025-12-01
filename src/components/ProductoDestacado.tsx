@@ -21,7 +21,7 @@ function ProductoDestacado(product: Product) {
                             {clpFormatter.format(product.price)}
                         </label>
                     </p>
-                </Link>{" "}
+                </Link>
             </div>
         </>
     );

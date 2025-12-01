@@ -3,11 +3,12 @@ import { useFetch } from "../hooks/useFetch";
 import { fetchProductById } from "../services/productService";
 import { useCallback } from "react";
 import { clpFormatter } from "../hooks/currencyFormat";
+import { addToCart } from "../hooks/cartService";
+import { useModal } from "../hooks/useModal";
 
 function ProductPage() {
     const { id } = useParams();
 
-    // makes it so it only reloads when the id changes
     const stableFetcher = useCallback(() => fetchProductById(id!), [id]);
 
     const {
@@ -15,6 +16,8 @@ function ProductPage() {
         loading: loadingProduct,
         error: errorProduct,
     } = useFetch(stableFetcher);
+
+    const { Modal, openModal } = useModal();
 
     if (loadingProduct) {
         return (
@@ -34,6 +37,15 @@ function ProductPage() {
         );
     }
 
+    const handleAddToCart = () => {
+        addToCart(dataProduct.id, 1);
+        // opcional: feedback visual usando modal
+        openModal(
+            "Producto agregado",
+            "El producto se agregó correctamente al carrito."
+        );
+    };
+
     return (
         <div className="container">
             <div className="boxes">
@@ -42,7 +54,7 @@ function ProductPage() {
                         className="product-img"
                         src={dataProduct.img_url}
                         alt={dataProduct.name + "image"}
-                    ></img>
+                    />
                 </div>
 
                 <div className="product-body">
@@ -57,7 +69,9 @@ function ProductPage() {
                         {clpFormatter.format(dataProduct.price)}
                     </label>
                     {dataProduct.stock ? (
-                        <button className="button">Agregar al carrito</button>
+                        <button className="button" onClick={handleAddToCart}>
+                            Agregar al carrito
+                        </button>
                     ) : (
                         <p className="box">ta agotao</p>
                     )}
@@ -68,6 +82,8 @@ function ProductPage() {
                 <p>Descripcion producto:</p>
                 <p>{dataProduct.description}</p>
             </div>
+
+            <Modal />
         </div>
     );
 }

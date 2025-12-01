@@ -8,7 +8,7 @@ interface LayoutProps {
 
 function Layout({ children }: LayoutProps) {
     const location = useLocation();
-    const pagesWithoutLayout = ["/login", "/register", "/carrito"];
+    const pagesWithoutLayout = ["/login", "/register"];
     const prefixWithoutLayout = ["/admin"];
 
     if (
@@ -17,7 +17,12 @@ function Layout({ children }: LayoutProps) {
             location.pathname.startsWith(prefix)
         )
     ) {
-        return <div className="pt-5">{children}</div>;
+        return (
+            <div className="pt-5">
+                {children}
+                <Footer />
+            </div>
+        );
     }
 
     return (

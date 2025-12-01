@@ -1,6 +1,7 @@
 import type { Evento } from "../types/Evento";
 
-const MAPS_API_KEY = "test";
+const MAPS_API_KEY = null;
+
 function EventBox(event: Evento) {
     return (
         <div className="box event-box">
@@ -19,9 +20,11 @@ function EventBox(event: Evento) {
                         className="map-iframe"
                         loading="lazy"
                         src={
-                            "https://www.google.com/maps/embed/v1/place?key=" +
-                            MAPS_API_KEY +
-                            "&q=Space+Needle,Seattle+WA"
+                            MAPS_API_KEY
+                                ? "https://www.google.com/maps/embed/v1/place?key=" +
+                                  MAPS_API_KEY +
+                                  "&q=Space+Needle,Seattle+WA"
+                                : "./src/assets/images/map-mockup.jpg"
                         }
                     ></iframe>
                 </div>

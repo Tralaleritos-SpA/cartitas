@@ -82,3 +82,30 @@ export async function deleteBrand(brandId: string): Promise<void> {
         throw new Error("API Error in deleteBrand: " + errorMessage);
     }
 }
+
+export async function updateBrandActive(brandId: string, active: boolean): Promise<void> {
+    try {
+        const getRes = await fetch(`${apiURL}/${brandId}`);
+        if (!getRes.ok) {
+            throw new Error(`Failed to fetch brand for update. Status: ${getRes.status}`);
+        }
+        const existing = await getRes.json();
+
+        const updatedObj = { ...existing, active };
+
+        const response = await fetch(`${apiURL}/${brandId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedObj),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to update brand active. Status: ${response.status}`);
+        }
+
+        return;
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        throw new Error("API Error in updateBrandActive: " + errorMessage);
+    }
+}

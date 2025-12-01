@@ -21,10 +21,11 @@ function CardGrid({ products, loading, error }: CardGridProps) {
         return <p>No hay productos para mostrar.</p>;
     }
     return (
-        <div className="card-grid col-sm-12 col-md-8">
+        <div className="card-grid col-sm-12 col-md-12">
             {products.map((product, index) => (
                 <Card
                     id={product.id}
+                    active={product.active}
                     category={product.category}
                     name={product.name}
                     brand={product.brand}
