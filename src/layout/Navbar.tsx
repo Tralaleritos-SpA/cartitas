@@ -127,26 +127,52 @@ function Navbar() {
                                 ? `Hola, ${Primernombre}`
                                 : "Mi Cuenta"}
                         </Dropdown.Toggle>
-
+                        {/* render admin button only if user is logged in and has admin role */}
                         <Dropdown.Menu className="custom-dropdown-menu">
                             {user ? (
-                                <>
-                                    <Dropdown.Item
-                                        href="/Mispedidos"
-                                        onClick={toggleMenu}
-                                    >
-                                        Mis pedidos
-                                    </Dropdown.Item>
-                                    <Dropdown.Divider />
-                                    <Dropdown.Item
-                                        onClick={() => {
-                                            logout();
-                                            toggleMenu();
-                                        }}
-                                    >
-                                        Cerrar sesión
-                                    </Dropdown.Item>
-                                </>
+                                user.role && user.role.name == "admin" ? (
+                                    <>
+                                        <Dropdown.Item
+                                            href="/Mispedidos"
+                                            onClick={toggleMenu}
+                                        >
+                                            Mis pedidos
+                                        </Dropdown.Item>
+                                        <Dropdown.Item
+                                            href="/admin"
+                                            onClick={toggleMenu}
+                                        >
+                                            Panel Administracion
+                                        </Dropdown.Item>
+                                        <Dropdown.Divider />
+                                        <Dropdown.Item
+                                            onClick={() => {
+                                                logout();
+                                                toggleMenu();
+                                            }}
+                                        >
+                                            Cerrar sesión
+                                        </Dropdown.Item>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Dropdown.Item
+                                            href="/Mispedidos"
+                                            onClick={toggleMenu}
+                                        >
+                                            Mis pedidos
+                                        </Dropdown.Item>
+                                        <Dropdown.Divider />
+                                        <Dropdown.Item
+                                            onClick={() => {
+                                                logout();
+                                                toggleMenu();
+                                            }}
+                                        >
+                                            Cerrar sesión
+                                        </Dropdown.Item>
+                                    </>
+                                )
                             ) : (
                                 <>
                                     <Dropdown.Item
