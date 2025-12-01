@@ -1,6 +1,6 @@
-import { useDelete } from "../hooks/useDelete";
 import { useFetch } from "../hooks/useFetch";
-import { deleteCategory, fetchCategories } from "../services/categoryService";
+import { fetchCategories, updateCategoryActive } from "../services/categoryService";
+import { useEffect, useState } from "react";
 
 export default function AdminCategoriasList() {
     const {
@@ -9,7 +9,22 @@ export default function AdminCategoriasList() {
         error: errorCategory,
     } = useFetch(fetchCategories);
 
-    const { remove, loading, error } = useDelete(deleteCategory);
+    const [localCategories, setLocalCategories] = useState<any[] | null>(null);
+
+    useEffect(() => {
+        if (dataCategory) setLocalCategories(dataCategory as any[]);
+    }, [dataCategory]);
+
+    const handleToggle = async (c: any) => {
+        try {
+            const newActive = !c.active;
+            await updateCategoryActive(c.id, newActive);
+            setLocalCategories(prev => prev ? prev.map(item => item.id === c.id ? { ...item, active: newActive } : item) : prev);
+        } catch (err) {
+            console.error("Error toggling category:", err);
+            alert("No se pudo actualizar la categoría. Revisa la consola.");
+        }
+    };
 
     return (
         <div className="dashboard-container">
@@ -20,7 +35,7 @@ export default function AdminCategoriasList() {
                 <div className="alert alert-danger mt-3">{errorCategory.message}</div>
             )}
 
-            {dataCategory && (
+            {localCategories && (
                 <table className="data-table">
                     <thead>
                         <tr>
@@ -30,14 +45,12 @@ export default function AdminCategoriasList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {dataCategory.map((c: any, index: number) => (
+                        {localCategories.map((c: any, index: number) => (
                             <tr key={index}>
                                 <td>{c.name}</td>
                                 <td>{c.active ? <label className="text-success">Activo</label> : <label className="text-danger">Desactivado</label>}</td>
                                 <td>
-                                    <button className="button button-primary my-1" onClick={() => remove(c.id)}>toggle</button>
-                                    {loading}
-                                    {error && <div className="alert alert-danger mt-3">Error: {error.message}</div>}
+                                    <button className="button button-primary my-1" onClick={() => handleToggle(c)}>{c.active ? "Desactivar" : "Activar"}</button>
                                 </td>
                             </tr>
                         ))}

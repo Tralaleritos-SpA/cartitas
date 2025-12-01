@@ -1,7 +1,7 @@
-import { useDelete } from "../hooks/useDelete";
 import { useFetch } from "../hooks/useFetch";
-import { deleteProduct, fetchProducts } from "../services/productService";
+import { fetchProducts, updateProductActive } from "../services/productService";
 import { clpFormatter } from "../hooks/currencyFormat";
+import { useEffect, useState } from "react";
 
 export default function AdminProductosList() {
     const {
@@ -10,7 +10,22 @@ export default function AdminProductosList() {
         error: productError,
     } = useFetch(fetchProducts);
 
-    const { remove, loading, error } = useDelete(deleteProduct);
+    const [localProducts, setLocalProducts] = useState<any[] | null>(null);
+
+    useEffect(() => {
+        if (productList) setLocalProducts(productList as any[]);
+    }, [productList]);
+
+    const handleToggle = async (p: any) => {
+        try {
+            const newActive = !p.active;
+            await updateProductActive(p.id, newActive);
+            setLocalProducts((prev) => prev ? prev.map(item => item.id === p.id ? { ...item, active: newActive } : item) : prev);
+        } catch (err) {
+            console.error("Error toggling product active:", err);
+            alert("No se pudo actualizar el producto. Revisa la consola.");
+        }
+    };
 
     return (
         <div className="dashboard-container">
@@ -21,7 +36,7 @@ export default function AdminProductosList() {
                 <div className="alert alert-danger mt-3">{productError.message}</div>
             )}
 
-            {productList && (
+            {localProducts && (
                 <table className="data-table">
                     <thead>
                         <tr>
@@ -31,8 +46,8 @@ export default function AdminProductosList() {
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {productList.map((p: any) => (
+                            <tbody>
+                                {localProducts.map((p: any) => (
                             <tr key={p.id}>
                                 <td>{p.name}</td>
                                 <td>{clpFormatter.format(p.price ?? 0)}</td>
@@ -44,16 +59,7 @@ export default function AdminProductosList() {
                                     )}
                                 </td>
                                 <td>
-                                    <button
-                                        className="button button-primary w-100 my-1"
-                                        onClick={() => remove(p.id)}
-                                    >
-                                        toggle
-                                    </button>
-                                    {loading}
-                                    {error && (
-                                        <div className="alert alert-danger mt-3">Error: {error.message}</div>
-                                    )}
+                                            <button className="button button-primary w-100 my-1" onClick={() => handleToggle(p)}>{p.active ? "Desactivar" : "Activar"}</button>
                                 </td>
                             </tr>
                         ))}

@@ -1,6 +1,6 @@
-import { useDelete } from "../hooks/useDelete";
 import { useFetch } from "../hooks/useFetch";
-import { deleteBrand, fetchBrands } from "../services/brandService";
+import { fetchBrands, updateBrandActive } from "../services/brandService";
+import { useEffect, useState } from "react";
 
 export default function AdminMarcasList() {
     const {
@@ -9,7 +9,22 @@ export default function AdminMarcasList() {
         error: errorBrand,
     } = useFetch(fetchBrands);
 
-    const { remove, loading, error } = useDelete(deleteBrand);
+    const [localBrands, setLocalBrands] = useState<any[] | null>(null);
+
+    useEffect(() => {
+        if (dataBrand) setLocalBrands(dataBrand as any[]);
+    }, [dataBrand]);
+
+    const handleToggle = async (b: any) => {
+        try {
+            const newActive = !b.active;
+            await updateBrandActive(b.id, newActive);
+            setLocalBrands(prev => prev ? prev.map(item => item.id === b.id ? { ...item, active: newActive } : item) : prev);
+        } catch (err) {
+            console.error("Error toggling brand:", err);
+            alert("No se pudo actualizar la marca. Revisa la consola.");
+        }
+    };
 
     return (
         <div className="dashboard-container">
@@ -20,7 +35,7 @@ export default function AdminMarcasList() {
                 <div className="alert alert-danger mt-3">{errorBrand.message}</div>
             )}
 
-            {dataBrand && (
+            {localBrands && (
                 <table className="data-table">
                     <thead>
                         <tr>
@@ -30,14 +45,12 @@ export default function AdminMarcasList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {dataBrand.map((b: any, index: number) => (
+                        {localBrands.map((b: any, index: number) => (
                             <tr key={index}>
                                 <td>{b.name}</td>
                                 <td>{b.active ? <label className="text-success">Activo</label> : <label className="text-danger">Desactivado</label>}</td>
                                 <td>
-                                    <button className="button button-primary w-100 my-1" onClick={() => remove(b.id)}>toggle</button>
-                                    {loading}
-                                    {error && <div className="alert alert-danger mt-3">Error: {error.message}</div>}
+                                    <button className="button button-primary w-100 my-1" onClick={() => handleToggle(b)}>{b.active ? "Desactivar" : "Activar"}</button>
                                 </td>
                             </tr>
                         ))}
