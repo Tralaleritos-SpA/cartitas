@@ -66,7 +66,7 @@ export const StatusUpdater: React.FC<StatusUpdaterProps> = ({ orderId, currentSt
                 disabled={isUpdating}
                 style={{ padding: '5px', marginRight: '10px' }}
             >
-                {orderStatuses.map((status) => (
+                {Array.from(new Set([currentStatus, ...orderStatuses])).map((status) => (
                     <option key={status} value={status}>
                         {status}
                     </option>
