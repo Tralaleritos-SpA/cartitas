@@ -1,6 +1,7 @@
 import { useFetch } from "../hooks/useFetch";
 import { fetchRoles, updateRoleActive } from "../services/roleService";
 import { useEffect, useState } from "react";
+import { useModal } from "../hooks/useModal";
 
 export default function AdminRolesList() {
     const {
@@ -10,6 +11,7 @@ export default function AdminRolesList() {
     } = useFetch(fetchRoles);
 
     const [localRoles, setLocalRoles] = useState<any[] | null>(null);
+    const { openModal, Modal } = useModal();
 
     useEffect(() => {
         if (dataRole) setLocalRoles(dataRole as any[]);
@@ -22,7 +24,7 @@ export default function AdminRolesList() {
             setLocalRoles(prev => prev ? prev.map(item => item.id === r.id ? { ...item, active: newActive } : item) : prev);
         } catch (err) {
             console.error("Error toggling role:", err);
-            alert("No se pudo actualizar el role. Revisa la consola.");
+            openModal("Error", "No se pudo actualizar el role. Revisa la consola.");
         }
     };
 
@@ -54,6 +56,7 @@ export default function AdminRolesList() {
                     </tbody>
                 </table>
             )}
+            <Modal />
         </div>
     );
 }

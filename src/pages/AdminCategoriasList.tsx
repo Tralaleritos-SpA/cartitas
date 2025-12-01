@@ -1,6 +1,7 @@
 import { useFetch } from "../hooks/useFetch";
 import { fetchCategories, updateCategoryActive } from "../services/categoryService";
 import { useEffect, useState } from "react";
+import { useModal } from "../hooks/useModal";
 
 export default function AdminCategoriasList() {
     const {
@@ -10,6 +11,7 @@ export default function AdminCategoriasList() {
     } = useFetch(fetchCategories);
 
     const [localCategories, setLocalCategories] = useState<any[] | null>(null);
+    const { openModal, Modal } = useModal();
 
     useEffect(() => {
         if (dataCategory) setLocalCategories(dataCategory as any[]);
@@ -22,7 +24,7 @@ export default function AdminCategoriasList() {
             setLocalCategories(prev => prev ? prev.map(item => item.id === c.id ? { ...item, active: newActive } : item) : prev);
         } catch (err) {
             console.error("Error toggling category:", err);
-            alert("No se pudo actualizar la categoría. Revisa la consola.");
+            openModal("Error", "No se pudo actualizar la categoría. Revisa la consola.");
         }
     };
 
@@ -57,6 +59,7 @@ export default function AdminCategoriasList() {
                     </tbody>
                 </table>
             )}
+            <Modal />
         </div>
     );
 }

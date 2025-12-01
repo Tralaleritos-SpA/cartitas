@@ -4,6 +4,7 @@ import { useAdminOrderDetails } from "../hooks/useAdminOrder";
 import AdminOrderRow from "../components/AdminOrderRow"; 
 import OrderDetailsView from "../components/OrderDetailsView"; 
 import { type OrderSummary } from "../types/OrderTypes";
+import { useModal } from "../hooks/useModal";
 
 
 function AdminOrdersList() {
@@ -14,6 +15,7 @@ function AdminOrdersList() {
 
     // Hook para la gestión de detalles y caché (usa fetchOrderById)
     const { cache, load, loadingIds } = useAdminOrderDetails();
+    const { openModal, Modal } = useModal();
 
     // 1. Lógica para cargar TODOS los pedidos (usa GET /api/v1/orders)
     const loadOrders = useCallback(async () => {
@@ -49,7 +51,7 @@ function AdminOrdersList() {
             try {
                 await load(orderId);
             } catch {
-                alert("No se pudieron cargar los detalles del pedido.");
+                openModal("Error", "No se pudieron cargar los detalles del pedido.");
                 setOpenOrderId(null);
             }
         }
@@ -115,6 +117,7 @@ function AdminOrdersList() {
                     ))}
                 </tbody>
             </table>
+            <Modal />
         </div>
     );
 }

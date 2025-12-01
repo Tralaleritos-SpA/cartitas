@@ -1,6 +1,7 @@
 import { useFetch } from "../hooks/useFetch";
 import { fetchBrands, updateBrandActive } from "../services/brandService";
 import { useEffect, useState } from "react";
+import { useModal } from "../hooks/useModal";
 
 export default function AdminMarcasList() {
     const {
@@ -10,6 +11,7 @@ export default function AdminMarcasList() {
     } = useFetch(fetchBrands);
 
     const [localBrands, setLocalBrands] = useState<any[] | null>(null);
+    const { openModal, Modal } = useModal();
 
     useEffect(() => {
         if (dataBrand) setLocalBrands(dataBrand as any[]);
@@ -22,7 +24,7 @@ export default function AdminMarcasList() {
             setLocalBrands(prev => prev ? prev.map(item => item.id === b.id ? { ...item, active: newActive } : item) : prev);
         } catch (err) {
             console.error("Error toggling brand:", err);
-            alert("No se pudo actualizar la marca. Revisa la consola.");
+            openModal("Error", "No se pudo actualizar la marca. Revisa la consola.");
         }
     };
 
@@ -57,6 +59,7 @@ export default function AdminMarcasList() {
                     </tbody>
                 </table>
             )}
+            <Modal />
         </div>
     );
 }

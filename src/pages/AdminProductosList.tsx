@@ -2,6 +2,7 @@ import { useFetch } from "../hooks/useFetch";
 import { fetchProducts, updateProductActive } from "../services/productService";
 import { clpFormatter } from "../hooks/currencyFormat";
 import { useEffect, useState } from "react";
+import { useModal } from "../hooks/useModal";
 
 export default function AdminProductosList() {
     const {
@@ -11,6 +12,7 @@ export default function AdminProductosList() {
     } = useFetch(fetchProducts);
 
     const [localProducts, setLocalProducts] = useState<any[] | null>(null);
+    const { openModal, Modal } = useModal();
 
     useEffect(() => {
         if (productList) setLocalProducts(productList as any[]);
@@ -23,7 +25,7 @@ export default function AdminProductosList() {
             setLocalProducts((prev) => prev ? prev.map(item => item.id === p.id ? { ...item, active: newActive } : item) : prev);
         } catch (err) {
             console.error("Error toggling product active:", err);
-            alert("No se pudo actualizar el producto. Revisa la consola.");
+            openModal("Error", "No se pudo actualizar el producto. Revisa la consola.");
         }
     };
 
@@ -66,6 +68,7 @@ export default function AdminProductosList() {
                     </tbody>
                 </table>
             )}
+            <Modal />
         </div>
     );
 }
