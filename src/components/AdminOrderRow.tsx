@@ -46,6 +46,16 @@ const AdminOrderRow: React.FC<AdminOrderRowProps> = ({ order, isOpen, onToggle, 
         return isNaN(fallback.getTime()) ? null : fallback;
     };
 
+    // Mapeo del estado a una clase de color simple para visualización
+    const getStatusClass = (status: string): string => {
+        switch (status) {
+            case 'ENVIADO': return 'text-success';
+            case 'PENDIENTE': return 'text-warning';
+            case 'CANCELADO': return 'text-danger';
+            default: return '';
+        }
+    };
+
     const formatDateDDMMYYYY = (date: Date) => {
         const dd = String(date.getDate()).padStart(2, "0");
         const mm = String(date.getMonth() + 1).padStart(2, "0");
@@ -63,7 +73,7 @@ const AdminOrderRow: React.FC<AdminOrderRowProps> = ({ order, isOpen, onToggle, 
     const formattedTotal = clpFormatter.format(order.total_price);
 
     return (
-        <tr onClick={() => onToggle(order.id)} style={{ cursor: 'pointer' }}>
+        <tr>
             {/* Columna 1: ID Pedido (Corto) */}
             <td>{order.id.substring(0, 8)}</td>
             <td>
@@ -72,11 +82,7 @@ const AdminOrderRow: React.FC<AdminOrderRowProps> = ({ order, isOpen, onToggle, 
             <td>{formattedTotal}</td>
             <td>{order.shippingCity}</td>
             <td>
-                <span
-                    className={`badge ${
-                        order.status === "PENDING" ? "bg-warning" : "bg-success"
-                    }`}
-                >
+                <span className={`badge ${getStatusClass(order.status)}`}>
                     {order.status}
                 </span>
             </td>
