@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import {
-    fetchAllOrdersByUserId,
-    type OrderSummary,
-} from "../services/orderService";
+import { fetchAllOrdersByUserId } from "../services/orderService";
+import type { OrderSummary } from "../types/OrderTypes";
 
 export function useOrders(userId: string | null) {
     const [orders, setOrders] = useState<OrderSummary[]>([]);
