@@ -17,7 +17,12 @@ function Layout({ children }: LayoutProps) {
             location.pathname.startsWith(prefix)
         )
     ) {
-        return <div className="pt-5">{children}</div>;
+        return (
+            <div className="pt-5">
+                {children}
+                <Footer />
+            </div>
+        );
     }
 
     return (
