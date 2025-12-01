@@ -1,7 +1,8 @@
 import { useCallback, useState } from "react";
-import { fetchOrderById, type OrderDetails } from "../services/orderService";
+import { fetchOrderById } from "../services/orderService";
+import type { Order } from "../types/OrderTypes";
 
-type Cache = { [key: string]: OrderDetails | null };
+type Cache = { [key: string]: Order | null };
 
 export function useOrderDetails() {
   const [cache, setCache] = useState<Cache>({});

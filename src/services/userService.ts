@@ -83,6 +83,33 @@ export async function deleteUser(userId: string): Promise<void> {
     }
 }
 
+export async function updateUserActive(userId: string, active: boolean): Promise<void> {
+    try {
+        const getRes = await fetch(`${apiURL}/${userId}`);
+        if (!getRes.ok) {
+            throw new Error(`Failed to fetch user for update. Status: ${getRes.status}`);
+        }
+        const existing = await getRes.json();
+
+        const updatedObj = { ...existing, active };
+
+        const response = await fetch(`${apiURL}/${userId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedObj),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to update user active. Status: ${response.status}`);
+        }
+
+        return;
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        throw new Error("API Error in updateUserActive: " + errorMessage);
+    }
+}
+
 export async function loginUser(
     email: string,
     password: string

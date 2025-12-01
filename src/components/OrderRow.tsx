@@ -1,4 +1,4 @@
-import type { OrderSummary } from "../services/orderService";
+import type { OrderSummary } from "../types/OrderTypes";
 import { clpFormatter } from "../hooks/currencyFormat";
 
 type Props = {

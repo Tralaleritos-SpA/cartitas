@@ -113,3 +113,31 @@ export async function deleteProduct(productId: string): Promise<void> {
         throw new Error("API Error in deleteProduct: " + errorMessage);
     }
 }
+
+export async function updateProductActive(productId: string, active: boolean): Promise<void> {
+    try {
+        // obtener el objeto completo primero
+        const getRes = await fetch(`${apiURL}/${productId}`);
+        if (!getRes.ok) {
+            throw new Error(`Failed to fetch product for update. Status: ${getRes.status}`);
+        }
+        const existing = await getRes.json();
+
+        const updatedObj = { ...existing, active };
+
+        const response = await fetch(`${apiURL}/${productId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedObj),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to update product active. Status: ${response.status}`);
+        }
+
+        return;
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        throw new Error("API Error in updateProductActive: " + errorMessage);
+    }
+}

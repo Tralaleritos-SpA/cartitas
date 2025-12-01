@@ -84,3 +84,30 @@ export async function deleteCategory(brandId: string): Promise<void> {
         throw new Error("API Error in deleteCategory: " + errorMessage);
     }
 }
+
+export async function updateCategoryActive(categoryId: string, active: boolean): Promise<void> {
+    try {
+        const getRes = await fetch(`${apiURL}/${categoryId}`);
+        if (!getRes.ok) {
+            throw new Error(`Failed to fetch category for update. Status: ${getRes.status}`);
+        }
+        const existing = await getRes.json();
+
+        const updatedObj = { ...existing, active };
+
+        const response = await fetch(`${apiURL}/${categoryId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedObj),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to update category active. Status: ${response.status}`);
+        }
+
+        return;
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        throw new Error("API Error in updateCategoryActive: " + errorMessage);
+    }
+}

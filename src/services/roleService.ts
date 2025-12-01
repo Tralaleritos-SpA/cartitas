@@ -82,3 +82,30 @@ export async function deleteRole(roleId: string): Promise<void> {
         throw new Error("API Error in deleteRole: " + errorMessage);
     }
 }
+
+export async function updateRoleActive(roleId: string, active: boolean): Promise<void> {
+    try {
+        const getRes = await fetch(`${apiURL}/${roleId}`);
+        if (!getRes.ok) {
+            throw new Error(`Failed to fetch role for update. Status: ${getRes.status}`);
+        }
+        const existing = await getRes.json();
+
+        const updatedObj = { ...existing, active };
+
+        const response = await fetch(`${apiURL}/${roleId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedObj),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to update role active. Status: ${response.status}`);
+        }
+
+        return;
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        throw new Error("API Error in updateRoleActive: " + errorMessage);
+    }
+}
