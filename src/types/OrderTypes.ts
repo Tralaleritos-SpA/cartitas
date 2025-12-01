@@ -23,7 +23,7 @@ export interface Order {
     id: string; 
     user: User; 
     total_price: number;
-    createdAt: string; 
+    createdAt: Date; 
     status: "PENDIENTE" | "SHIPPED" | "ENVIADO" | string;
     
     fullName: string;

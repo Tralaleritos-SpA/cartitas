@@ -28,10 +28,17 @@ export const StatusUpdater: React.FC<StatusUpdaterProps> = ({ orderId, currentSt
             const updatedOrder: Order = await updateOrderStatus(orderId, newStatus);
             
             // Crea un OrderSummary consistente para actualizar la lista principal
+            const createdAtValue = (updatedOrder as any).createdAt;
+            const createdAtStr = typeof createdAtValue === 'string'
+                ? createdAtValue
+                : createdAtValue instanceof Date
+                    ? createdAtValue.toISOString()
+                    : String(createdAtValue);
+
             const summary: OrderSummary = {
                 id: updatedOrder.id,
                 total_price: updatedOrder.total_price,
-                created_at: updatedOrder.createdAt,
+                created_at: createdAtStr,
                 status: updatedOrder.status,
                 shippingCity: updatedOrder.shippingCity,
             };
