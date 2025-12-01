@@ -193,7 +193,7 @@ function Register() {
 
                             <button
                                 type="submit"
-                                className="button w-100"
+                                className="button button-primary w-100"
                                 disabled={loading}
                             >
                                 {loading ? "Registrando..." : "Registrarse"}

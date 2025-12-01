@@ -89,7 +89,7 @@ function Carrito() {
                     </p>
                     <Link
                         to="/direccion"
-                        className="button button-primary w-100 mt-2"
+                        className="button button-primary link w-100 mt-2"
                     >
                         Continuar al Pago
                     </Link>
