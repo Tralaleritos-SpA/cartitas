@@ -65,7 +65,7 @@ export default function OrderRow({ order, isOpen, onToggle }: Props) {
             <td>
                 <span
                     className={`badge ${
-                        order.status === "PENDING" ? "bg-warning" : "bg-success"
+                        order.status === "PENDIENTE" ? "bg-warning" : "bg-success"
                     }`}
                 >
                     {order.status}
