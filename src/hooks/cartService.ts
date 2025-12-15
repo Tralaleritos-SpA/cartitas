@@ -26,6 +26,18 @@ function readCart(): CartItem[] {
 
 function writeCart(cart: CartItem[]) {
     localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    try {
+        // dispatch an in-page event so components in the same tab update immediately
+        window.dispatchEvent(
+            new CustomEvent("cart-changed", {
+                detail: {
+                    count: cart.reduce((s, i) => s + (i.quantity || 0), 0),
+                },
+            })
+        );
+    } catch {
+        // ignore (non-browser environments)
+    }
 }
 
 export function getCart(): CartItem[] {
@@ -50,9 +62,7 @@ export function setItemQuantity(id: string, quantity: number): CartItem[] {
     let cart = readCart();
 
     cart = cart
-        .map((item) =>
-            item.id === id ? { ...item, quantity } : item
-        )
+        .map((item) => (item.id === id ? { ...item, quantity } : item))
         .filter((item) => item.quantity > 0);
 
     writeCart(cart);
@@ -61,4 +71,9 @@ export function setItemQuantity(id: string, quantity: number): CartItem[] {
 
 export function clearCart() {
     localStorage.removeItem(CART_KEY);
+    try {
+        window.dispatchEvent(
+            new CustomEvent("cart-changed", { detail: { count: 0 } })
+        );
+    } catch {}
 }

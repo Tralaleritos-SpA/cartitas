@@ -1,7 +1,8 @@
 import { Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/userAutenticacion";
-import { useState } from "react";
+import { getCart } from "../hooks/cartService";
+import { useState, useEffect } from "react";
 
 function Navbar() {
     // 2. State for controlling the mobile menu's visibility
@@ -9,6 +10,71 @@ function Navbar() {
 
     const { user, logout } = useAuth();
     const Primernombre = user?.name ? user.name.split(" ")[0] : null;
+
+    // cart count state
+    const [cartCount, setCartCount] = useState<number>(() =>
+        getCart().reduce((s, i) => s + (i.quantity || 0), 0)
+    );
+
+    useEffect(() => {
+        // initial
+        setCartCount(getCart().reduce((s, i) => s + (i.quantity || 0), 0));
+
+        const handleStorage = (e: StorageEvent) => {
+            if (e.key === "cart" || e.key === null) {
+                setCartCount(
+                    getCart().reduce((s, i) => s + (i.quantity || 0), 0)
+                );
+            }
+        };
+
+        const handleVisibility = () => {
+            if (!document.hidden)
+                setCartCount(
+                    getCart().reduce((s, i) => s + (i.quantity || 0), 0)
+                );
+        };
+
+        const handleCartChanged = (e: Event) => {
+            // event dispatched from cartService when same-tab updates occur
+            try {
+                const detail = (e as CustomEvent)?.detail;
+                if (typeof detail?.count === "number") {
+                    setCartCount(detail.count);
+                    return;
+                }
+            } catch {}
+            // fallback to reading storage
+            setCartCount(getCart().reduce((s, i) => s + (i.quantity || 0), 0));
+        };
+
+        window.addEventListener("storage", handleStorage);
+        document.addEventListener("visibilitychange", handleVisibility);
+        window.addEventListener(
+            "cart-changed",
+            handleCartChanged as EventListener
+        );
+
+        const interval = setInterval(() => {
+            setCartCount((prev) => {
+                const current = getCart().reduce(
+                    (s, i) => s + (i.quantity || 0),
+                    0
+                );
+                return prev === current ? prev : current;
+            });
+        }, 2000);
+
+        return () => {
+            window.removeEventListener("storage", handleStorage);
+            document.removeEventListener("visibilitychange", handleVisibility);
+            window.removeEventListener(
+                "cart-changed",
+                handleCartChanged as EventListener
+            );
+            clearInterval(interval);
+        };
+    }, []);
 
     // 3. Toggle function
     const toggleMenu = () => {
@@ -118,6 +184,9 @@ function Navbar() {
                         onClick={toggleMenu}
                     >
                         Carrito
+                        {typeof window !== "undefined" && cartCount > 0 && (
+                            <span className="cart-count">{cartCount}</span>
+                        )}
                     </Link>
                 </li>
                 <li>

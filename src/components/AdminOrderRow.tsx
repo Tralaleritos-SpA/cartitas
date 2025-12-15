@@ -1,6 +1,6 @@
-import React from 'react';
-import type { OrderSummary } from '../types/OrderTypes';
-import { StatusUpdater } from './StatusUpdater'; // Asumiremos que StatusUpdater se mueve a un archivo separado.
+import React from "react";
+import type { OrderSummary } from "../types/OrderTypes";
+import { StatusUpdater } from "./StatusUpdater"; // Asumiremos que StatusUpdater se mueve a un archivo separado.
 import { clpFormatter } from "../hooks/currencyFormat";
 
 interface AdminOrderRowProps {
@@ -10,8 +10,12 @@ interface AdminOrderRowProps {
     onStatusUpdate: (updatedOrder: OrderSummary) => void; // Propagador de actualización
 }
 
-const AdminOrderRow: React.FC<AdminOrderRowProps> = ({ order, isOpen, onToggle, onStatusUpdate }) => {
-    
+const AdminOrderRow: React.FC<AdminOrderRowProps> = ({
+    order,
+    isOpen,
+    onToggle,
+    onStatusUpdate,
+}) => {
     const formatOrderDate = (input?: unknown): Date | null => {
         if (input == null) return null;
 
@@ -49,10 +53,14 @@ const AdminOrderRow: React.FC<AdminOrderRowProps> = ({ order, isOpen, onToggle, 
     // Mapeo del estado a una clase de color simple para visualización
     const getStatusClass = (status: string): string => {
         switch (status) {
-            case 'ENVIADO': return 'text-success';
-            case 'PENDIENTE': return 'text-warning';
-            case 'CANCELADO': return 'text-danger';
-            default: return '';
+            case "ENVIADO":
+                return "text-success";
+            case "PENDIENTE":
+                return "text-warning";
+            case "CANCELADO":
+                return "text-danger";
+            default:
+                return "";
         }
     };
 
@@ -72,14 +80,32 @@ const AdminOrderRow: React.FC<AdminOrderRowProps> = ({ order, isOpen, onToggle, 
 
     const formattedTotal = clpFormatter.format(order.total_price);
 
+    const getUserDisplay = () => {
+        // order.user may be absent depending on API; handle multiple shapes
+        const u: any = (order as any).user;
+        if (u) {
+            const nameParts = [u.name, u.last_name, u.fullName].filter(Boolean);
+            if (nameParts.length) return nameParts.join(" ");
+            if (u.email) return u.email;
+        }
+
+        // fallback to other possible fields on the order
+        const fallback =
+            (order as any).fullName ||
+            (order as any).userEmail ||
+            (order as any).user_name;
+        if (fallback) return fallback;
+
+        return "-";
+    };
+
     return (
         <tr>
             {/* Columna 1: ID Pedido (Corto) */}
             <td>{order.id.substring(0, 8)}</td>
-            <td>
-                {formattedDate}
-            </td>
+            <td>{formattedDate}</td>
             <td>{formattedTotal}</td>
+            <td>{getUserDisplay()}</td>
             <td>{order.shippingCity}</td>
             <td>
                 <span className={`badge ${getStatusClass(order.status)}`}>
@@ -96,7 +122,10 @@ const AdminOrderRow: React.FC<AdminOrderRowProps> = ({ order, isOpen, onToggle, 
             <td>
                 <button
                     className="button-primary button m-0 btn-sm btn-info"
-                    onClick={(e) => { e.stopPropagation(); onToggle(order.id); }}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onToggle(order.id);
+                    }}
                 >
                     {isOpen ? "Ocultar Detalles" : "Ver Detalles"}
                 </button>
@@ -104,7 +133,5 @@ const AdminOrderRow: React.FC<AdminOrderRowProps> = ({ order, isOpen, onToggle, 
         </tr>
     );
 };
-
-
 
 export default AdminOrderRow;

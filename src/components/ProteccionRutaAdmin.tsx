@@ -1,21 +1,26 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/userAutenticacion";
+import { useEffect } from "react";
 
 function AdminRoute() {
-  const { user } = useAuth();
+    const { user } = useAuth();
+    const navigate = useNavigate();
 
-  // si el usuario no esta logueado lo manda al home
-  if (!user || !user.role) {
-    return <Navigate to="/" replace />;
-  }
+    // when user changes (e.g. logout in another tab), ensure we redirect away
+    useEffect(() => {
+        if (!user || !user.role || user.role.name !== "admin") {
+            // navigate away if no valid admin user
+            navigate("/", { replace: true });
+        }
+    }, [user, navigate]);
 
-  // si esta logueado pero no es admin lo manda al home
-  if (user.role.name !== "admin") {
-    return <Navigate to="/" replace />;
-  }
+    // only render children if we have a valid admin user
+    if (user && user.role && user.role.name === "admin") {
+        return <Outlet />;
+    }
 
-  // si es admin puede ver lo que esta dentro de esta ruta
-  return <Outlet />;
+    // otherwise render nothing because the effect will redirect
+    return null;
 }
 
 export default AdminRoute;
